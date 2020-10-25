@@ -8,6 +8,25 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/retour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/log"
+        android:text="Retour"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connection"
+        android:textColor="#FFFFFF"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/pseudo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <EditText
         android:id="@+id/pseudo"
         android:singleLine="true"
@@ -42,6 +61,7 @@
     <Button
         android:text="Login"
         android:layout_width="150dp"
+        android:background="@drawable/log"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/mdp"
         app:layout_constraintStart_toStartOf="parent"
