@@ -20,6 +20,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        about.setOnClickListener {
+            val intent = Intent(this, About::class.java)
+            startActivity(intent)
+        }
+
     }
 }
 
