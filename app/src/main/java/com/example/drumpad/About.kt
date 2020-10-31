@@ -1,17 +1,19 @@
 package com.example.drumpad
 
+import android.app.ProgressDialog
 import android.media.MediaPlayer
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.StrictMode
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.AuthFailureError
 import com.android.volley.Request
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import java.sql.Connection
+import org.json.JSONObject
 import java.sql.DriverManager
 import java.sql.SQLException
 import java.sql.Statement
@@ -44,7 +46,8 @@ class About : AppCompatActivity() {
 
     override fun onStart() {
         //Connection().execute()
-        login()
+        //login()
+        login2()
         Log.i("TEST", "coucou1")
         super.onStart()
     }
@@ -98,20 +101,74 @@ class About : AppCompatActivity() {
 
     fun login(){
         val queue = Volley.newRequestQueue(this)
-        val url = "https://www.google.com"
+        val url = "http://lahoucine-hamsek.site/coucou.php"
+        val param1 = "id=test"
+        val param2 = "&mdp=coucou"
+
+        val parameters: MutableMap<String, String> = HashMap()
+        // Add your parameters in HashMap
+        parameters.put("id","test");
+        parameters.put("mdp","coucou");
+
+        val url2 = url + param1 + param2
+        Log.i("url", url2)
 
 // Request a string response from the provided URL.
-        val stringRequest = StringRequest(Request.Method.GET, url,
+        val stringRequest = StringRequest(Request.Method.GET, url2,
             Response.Listener<String> { response ->
                 // Display the first 500 characters of the response string.
-                Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "OK $response", Toast.LENGTH_SHORT).show()
             },
             Response.ErrorListener { Toast.makeText(this, "Pas OK", Toast.LENGTH_SHORT).show() })
+
+
+        fun getParams(): MutableMap<String, String> {
+            return parameters;
+        }
 
 // Add the request to the RequestQueue.
         queue.add(stringRequest)
     }
+
+
+
+        var volleyRequestQueue: RequestQueue? = null
+        val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+
+        fun login2() {
+            volleyRequestQueue = Volley.newRequestQueue(this)
+            val parameters: MutableMap<String, String> = HashMap()
+            // Add your parameters in HashMap
+            parameters.put("id","test")
+            parameters.put("mdp","coucou")
+
+            val strReq: StringRequest = object : StringRequest(
+                Method.POST,serverAPIURL,
+                Response.Listener { response ->
+                    Toast.makeText(this, "OK $response", Toast.LENGTH_SHORT).show()
+                },
+                Response.ErrorListener { volleyError -> // error occurred
+                    Toast.makeText(this, "ERREUR", Toast.LENGTH_SHORT).show()}) {
+
+                override fun getParams(): MutableMap<String, String> {
+                    return parameters;
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers: MutableMap<String, String> = HashMap()
+                    // Add your Header paramters here
+                    return headers
+                }
+            }
+            // Adding request to request queue
+            volleyRequestQueue?.add(strReq)
+        }
+
     }
+
+
+
 
 
 
