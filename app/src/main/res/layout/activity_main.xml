@@ -74,7 +74,8 @@
         android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:onClick="playSound">
         <Button
             android:background="@drawable/purple_button"
             android:layout_width="100dp"
