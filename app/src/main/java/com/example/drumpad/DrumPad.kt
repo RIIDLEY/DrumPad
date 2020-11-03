@@ -18,13 +18,13 @@ class DrumPad : AppCompatActivity() {
     private var sp: SoundPool? = null
     private val soundId = 2
     var loaded = false
-
+    var mediaPlayer1: MediaPlayer? = null
+    var mediaPlayer2: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        var mediaPlayer: MediaPlayer? = MediaPlayer.create(this, R.raw.cymbal1)
+        mediaPlayer1 = MediaPlayer.create(this, R.raw.clapanalog)
+        mediaPlayer2 = MediaPlayer.create(this, R.raw.kickelectro01)
         sp = SoundPool(2, AudioManager.STREAM_MUSIC, 1)
-        sp!!.load(applicationContext, R.raw.cymbal1, 2)
-
+        sp!!.load(applicationContext, R.raw.sound00, 2)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -45,8 +45,24 @@ class DrumPad : AppCompatActivity() {
     }
 
     fun playSound(view: View) {
-        sp?.play(soundId, 1f, 1f, 0, 0, 1f)
-        Toast.makeText(this, "Playing sound. . . .", Toast.LENGTH_SHORT).show()
+        sp?.setOnLoadCompleteListener(object : SoundPool.OnLoadCompleteListener {
+            override fun onLoadComplete(soundPool: SoundPool?, mySoundId: Int, status: Int) {
+                loaded = true
+            }
+        })
+        //mediaPlayer?.start()
+        if (loaded){
+            sp?.play(soundId, 1f, 1f, 0, 0, 1f)
+            Toast.makeText(this, "Playing sound. . . .", Toast.LENGTH_SHORT).show()
+        }
         Log.i("TEST", "JE SUIS LA")
+    }
+
+    fun playSound1(view: View) {
+        mediaPlayer1?.start()
+    }
+
+    fun playSound2(view: View) {
+        mediaPlayer2?.start()
     }
 }

@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Connection"
+        android:text="Inscription"
         android:textColor="#FFFFFF"
         android:textSize="40dp"
         app:layout_constraintBottom_toTopOf="@+id/pseudo"
@@ -58,27 +58,47 @@
         android:inputType="textPassword"
         />
 
-    <Button
-        android:text="Login"
+    <EditText
+        android:id="@+id/mdpSec"
+        android:singleLine="true"
         android:layout_width="150dp"
-        android:background="@drawable/log"
         android:layout_height="wrap_content"
-        android:id="@+id/boutonlog"
+        android:hint="Confirmation MDP"
+        android:textColorHint="#787474"
+        android:textColor="#FFFFFF"
+        android:padding="15px"
+        android:backgroundTint="#787474"
         app:layout_constraintTop_toBottomOf="@+id/mdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:inputType="textPassword"
+        />
+
+    <EditText
+        android:id="@+id/mail"
+        android:singleLine="true"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:hint="Mail"
+        android:textColorHint="#787474"
+        android:textColor="#FFFFFF"
+        android:padding="15px"
+        android:backgroundTint="#787474"
+        app:layout_constraintTop_toBottomOf="@+id/mdpSec"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:text="Sing Up"
+        android:layout_width="150dp"
+        android:background="@drawable/log"
         android:layout_height="wrap_content"
-        android:text="Inscription"
-        android:textColor="#787474"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:onClick="registerFunc"
-        app:layout_constraintTop_toBottomOf="@+id/boutonlog"
+        android:id="@+id/boutonlog"
+        app:layout_constraintTop_toBottomOf="@+id/mail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="enregistrement"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

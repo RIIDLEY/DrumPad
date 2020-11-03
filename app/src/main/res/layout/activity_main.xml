@@ -58,12 +58,15 @@
         <Button
             android:background="@drawable/blue_button"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:onClick="playSound1"
+            />
         <Button
             android:layout_marginLeft="5dp"
             android:background="@drawable/blue_button"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:onClick="playSound2"/>
         <Button
             android:layout_marginLeft="5dp"
             android:background="@drawable/blue_button"
@@ -75,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:onClick="playSound">
+        >
         <Button
             android:background="@drawable/purple_button"
             android:layout_width="100dp"
