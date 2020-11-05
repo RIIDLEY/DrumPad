@@ -35,6 +35,7 @@
             />
 
         <Button
+            android:id="@+id/recbtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/rec"
@@ -45,7 +46,7 @@
             android:id="@+id/login"
             android:layout_width="75dp"
             android:layout_height="50dp"
-            android:text="Login"
+            android:text="Profil"
             android:background="@drawable/log"
             android:gravity="center"
             android:layout_margin="10dp"

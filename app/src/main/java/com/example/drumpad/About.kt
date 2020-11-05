@@ -115,11 +115,11 @@ class About : AppCompatActivity() {
 
 // Request a string response from the provided URL.
         val stringRequest = StringRequest(Request.Method.GET, url2,
-            Response.Listener<String> { response ->
+            { response ->
                 // Display the first 500 characters of the response string.
                 Toast.makeText(this, "OK $response", Toast.LENGTH_SHORT).show()
             },
-            Response.ErrorListener { Toast.makeText(this, "Pas OK", Toast.LENGTH_SHORT).show() })
+            { Toast.makeText(this, "Pas OK", Toast.LENGTH_SHORT).show() })
 
 
         fun getParams(): MutableMap<String, String> {
