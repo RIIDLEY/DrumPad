@@ -18,11 +18,14 @@ import android.util.LayoutDirection
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_view.*
+import java.io.File
 import java.io.IOException
 
 
@@ -42,20 +45,13 @@ class DrumPad : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        val wallpaperDirectory = File("/storage/emulated/0/DrumPadRec/")
+        wallpaperDirectory.mkdirs()
         mediaPlayer1 = MediaPlayer.create(this, R.raw.clapanalog)
         mediaPlayer2 = MediaPlayer.create(this, R.raw.kickelectro01)
 
 
-        mediaRecorder = MediaRecorder()
 
-        output = Environment.getExternalStorageDirectory().absolutePath + "/recording1.mp3"
-
-        mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        mediaRecorder?.setAudioEncodingBitRate(128000)
-        mediaRecorder?.setAudioSamplingRate(44100)
-        mediaRecorder?.setOutputFile(output)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -72,15 +68,21 @@ class DrumPad : AppCompatActivity() {
 
         recbtn.setOnClickListener {
                 val view: View = LayoutInflater.from(this).inflate(R.layout.dialog_view,null)
-                val dialog: AlertDialog.Builder = AlertDialog.Builder(this,R.style.CustomDialog).setView(view)
-
-
+                val text: EditText = view.findViewById<EditText>(R.id.titre)
+                val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
+                    .setPositiveButton("Commencer à enregistre"){dialog, which ->
+                        Log.i("test",text.text.toString())
+                        prepareRecording(text.text.toString())
+                        startRecording()
+                    }
+                    .setTitle("Merci d'entrer un nom pour\n l'enregistrement")
+                    .setView(view)
                 if (recEnCours){
                     Log.i("recbtn","non")
                     stopRecording()
                     recEnCours = false
                 }else{
-                    AlertDialog.Builder(this).setNegativeButton("Commencer à enregistre",DialogInterface.OnClickListener(function =  rec)).setTitle("Mettez le son de votre smartphone au maximum !").show()
+                    dialog.show()
                     Log.i("recbtn","oui")
                     recEnCours = true
                 }
@@ -129,7 +131,23 @@ class DrumPad : AppCompatActivity() {
 
     //--------------------------
 
-    private fun startRecording() {
+    fun prepareRecording(nomfichier: String){
+        Log.i("prepareRecording","ok")
+
+        mediaRecorder = MediaRecorder()
+
+        output = Environment.getExternalStorageDirectory().absolutePath + "/DrumPadRec/" + nomfichier + ".mp3"
+
+        mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        mediaRecorder?.setAudioEncodingBitRate(128000)
+        mediaRecorder?.setAudioSamplingRate(44100)
+        mediaRecorder?.setOutputFile(output)
+    }
+
+
+     fun startRecording() {
         try {
             mediaRecorder?.prepare()
             mediaRecorder?.start()
@@ -141,7 +159,7 @@ class DrumPad : AppCompatActivity() {
         }
     }
 
-    private fun stopRecording(){
+     fun stopRecording(){
             mediaRecorder?.stop()
             mediaRecorder?.release()
             Toast.makeText(this, "C'est dans la boite", Toast.LENGTH_SHORT).show()
@@ -149,9 +167,11 @@ class DrumPad : AppCompatActivity() {
 
 
 
-    val rec = { dialog: DialogInterface, which: Int ->
-        startRecording()
-    }
-
+//    val rec = { dialog: DialogInterface, which: Int ->
+//        Log.i("rec","ok")
+//       // Log.i("Title", text.text.toString)
+//        prepareRecording()
+//        startRecording()
+//    }
 
 }

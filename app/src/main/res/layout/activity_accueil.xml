@@ -42,7 +42,7 @@
             android:id="@+id/login"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:text="Login"
+            android:text="Profil"
             android:background="@drawable/log"
             android:gravity="center"
             android:layout_margin="5dp"
