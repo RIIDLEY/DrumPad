@@ -18,4 +18,6 @@
 
     <color name="greenstartcolor">#b4fa51</color>
     <color name="greenndcolor">#78cb29</color>
+
+    <color name="colorTransparent">#00000000</color>
 </resources>

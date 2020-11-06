@@ -2,15 +2,21 @@ package com.example.drumpad
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.media.SoundPool
 import android.os.Bundle
 import android.os.Environment
+import android.util.LayoutDirection
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -65,12 +71,16 @@ class DrumPad : AppCompatActivity() {
         }
 
         recbtn.setOnClickListener {
+                val view: View = LayoutInflater.from(this).inflate(R.layout.dialog_view,null)
+                val dialog: AlertDialog.Builder = AlertDialog.Builder(this,R.style.CustomDialog).setView(view)
+
+
                 if (recEnCours){
                     Log.i("recbtn","non")
                     stopRecording()
                     recEnCours = false
                 }else{
-                    startRecording()
+                    AlertDialog.Builder(this).setNegativeButton("Commencer à enregistre",DialogInterface.OnClickListener(function =  rec)).setTitle("Mettez le son de votre smartphone au maximum !").show()
                     Log.i("recbtn","oui")
                     recEnCours = true
                 }
@@ -123,7 +133,7 @@ class DrumPad : AppCompatActivity() {
         try {
             mediaRecorder?.prepare()
             mediaRecorder?.start()
-            Toast.makeText(this, "Recording started!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "A vous de jouer", Toast.LENGTH_SHORT).show()
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         } catch (e: IOException) {
@@ -134,7 +144,14 @@ class DrumPad : AppCompatActivity() {
     private fun stopRecording(){
             mediaRecorder?.stop()
             mediaRecorder?.release()
-            Toast.makeText(this, "You are not recording right now!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "C'est dans la boite", Toast.LENGTH_SHORT).show()
     }
+
+
+
+    val rec = { dialog: DialogInterface, which: Int ->
+        startRecording()
+    }
+
 
 }
