@@ -57,8 +57,9 @@ class DrumPad : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         login.setOnClickListener {
-            val intent = Intent(this, FtpServer::class.java)
-            startActivity(intent)
+            //val intent = Intent(this, FtpServer::class.java)
+            //startActivity(intent)
+            File("/storage/emulated/0/DrumPadRec").list().forEach { Log.i("Test",it.toString()) }
         }
 
         retour.setOnClickListener {

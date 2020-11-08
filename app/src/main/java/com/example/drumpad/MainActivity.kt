@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        TEST.setOnClickListener {
+            val intent = Intent(this, Commu::class.java)
+            startActivity(intent)
+        }
     }
 }
 
