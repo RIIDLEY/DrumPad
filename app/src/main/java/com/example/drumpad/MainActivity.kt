@@ -20,6 +20,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        crea.setOnClickListener {
+            val intent = Intent(this, MesCreations::class.java)
+            startActivity(intent)
+        }
+
         about.setOnClickListener {
             val intent = Intent(this, About::class.java)
             startActivity(intent)

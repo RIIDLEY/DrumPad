@@ -23,9 +23,10 @@ class Commu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_commu)
 
-       val fragement = FirstFragement()
+        val fragement = FirstFragement()
         val fragement2 = SecondFragement()
-
+        val fragement3 = ThirdFragment()
+        var mApp = Var()
 
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment, fragement)
@@ -38,9 +39,17 @@ class Commu : AppCompatActivity() {
         }
 
         button2.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment, fragement2)
-                commit()}
+            Log.i("VARGOBALCOMMU",mApp.log.toString())
+            if (mApp.log){
+                supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.fragment, fragement3)
+                    commit()}
+            }else{
+                supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.fragment, fragement2)
+                    commit()}
+            }
+
         }
     }
 
