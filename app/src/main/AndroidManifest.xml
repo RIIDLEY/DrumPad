@@ -18,7 +18,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MesCreations"></activity>
-        <activity android:name=".testfrag1" />
         <activity android:name=".Commu" />
         <activity android:name=".Register" />
         <activity android:name=".About" />

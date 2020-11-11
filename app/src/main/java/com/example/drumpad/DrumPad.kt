@@ -67,6 +67,7 @@ class DrumPad : AppCompatActivity() {
                 Log.i("Titre",titre)
                 titre =""
             }
+            UploadUtility(this).uploadFile("/storage/emulated/0/DrumPadRec/recording1.mp3")
         }
 
         retour.setOnClickListener {
