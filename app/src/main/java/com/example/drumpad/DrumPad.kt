@@ -42,7 +42,7 @@ class DrumPad : AppCompatActivity() {
     private var state: Boolean = false
     private var recordingStopped: Boolean = false
     private var recEnCours: Boolean = false
-
+    private var titre: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val wallpaperDirectory = File("/storage/emulated/0/DrumPadRec/")
@@ -51,15 +51,22 @@ class DrumPad : AppCompatActivity() {
         mediaPlayer2 = MediaPlayer.create(this, R.raw.kickelectro01)
 
 
-
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         login.setOnClickListener {
             //val intent = Intent(this, FtpServer::class.java)
             //startActivity(intent)
-            File("/storage/emulated/0/DrumPadRec").list().forEach { Log.i("Test",it.toString()) }
+            File("/storage/emulated/0/DrumPadRec").list().forEach {
+
+                Log.i("Fichier",it.toString())
+                Log.i("Taille",it.length.toString())
+                for(i in 0..it.length-5){
+                    titre+=it.toString()[i]
+                }
+                Log.i("Titre",titre)
+                titre =""
+            }
         }
 
         retour.setOnClickListener {

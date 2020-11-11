@@ -26,11 +26,6 @@ class Commu : AppCompatActivity() {
        val fragement = FirstFragement()
         val fragement2 = SecondFragement()
 
-//        val fragmentManager: FragmentManager = supportFragmentManager
-//        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-//
-//        fragmentTransaction.add(R.id.frag1Text, fragement)
-//        fragmentTransaction.commit()
 
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment, fragement)

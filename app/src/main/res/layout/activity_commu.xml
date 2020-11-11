@@ -4,23 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+
     android:background="@color/colorPrimary"
     tools:context=".Commu">
 
+
+
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linear"/>
+
     <LinearLayout
+
         android:layout_alignParentBottom="true"
         style="?android:buttonBarStyle"
         android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment"
         android:orientation="vertical"
         android:divider="?android:dividerHorizontal"
         android:showDividers="middle">
 
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2px"
+            android:divider="#FFFFFF"
+            android:textColor="#FFFFFF"
+            android:background="#FFFFFF"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,24 +67,8 @@
                 android:text="Profil" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:divider="#FFFFFF"
-            android:textColor="#FFFFFF"
-            android:background="#FFFFFF"
-            />
+
 
     </LinearLayout>
-
-
-    <FrameLayout
-        android:id="@+id/fragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
