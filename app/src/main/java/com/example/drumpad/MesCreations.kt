@@ -63,7 +63,6 @@ class MesCreations : AppCompatActivity() {
             controlSound(ListeFichier[idOnPlay])
         }
 
-
     }
 
 
@@ -108,8 +107,13 @@ class MesCreations : AppCompatActivity() {
             mp = null
         }
 
+        upload.setOnClickListener {
+            UploadUtility(this).uploadFile(File)
+        }
 
-     //   SeekBar.setOnSeekBarChangeListener(object )
+
+
+        //   SeekBar.setOnSeekBarChangeListener(object )
         }
 
     }

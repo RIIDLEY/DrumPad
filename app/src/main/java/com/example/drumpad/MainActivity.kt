@@ -15,13 +15,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        login.setOnClickListener {
-            val intent = Intent(this, FtpServer::class.java)
-            startActivity(intent)
-        }
 
         crea.setOnClickListener {
             val intent = Intent(this, MesCreations::class.java)
+            startActivity(intent)
+        }
+
+        commu.setOnClickListener {
+            val intent = Intent(this, Commu::class.java)
             startActivity(intent)
         }
 
@@ -31,9 +32,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         TEST.setOnClickListener {
-            val intent = Intent(this, Commu::class.java)
+            val intent = Intent(this, Login::class.java)
             startActivity(intent)
         }
+
     }
 }
 

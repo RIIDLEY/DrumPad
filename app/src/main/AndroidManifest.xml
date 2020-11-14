@@ -22,7 +22,7 @@
         <activity android:name=".Register" />
         <activity android:name=".About" />
         <activity android:name=".DrumPad" />
-        <activity android:name=".FtpServer" />
+        <activity android:name=".Login" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

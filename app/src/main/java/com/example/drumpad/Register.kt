@@ -1,8 +1,10 @@
 package com.example.drumpad
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -16,8 +18,12 @@ import java.util.HashMap
 
 var volleyRequestQueue: RequestQueue? = null
 val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+var message: String = ""
 
 class Register : AppCompatActivity() {
+
+    lateinit var progressDialog: ProgressDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -41,8 +47,18 @@ class Register : AppCompatActivity() {
         val mailNull = mail.text.toString() != ""
 
      if (isEmailValid() && isMdpValid() && mdpNull && pseudoNull && mailNull){
-         toServer(pseudo.text.toString(),mdp.text.toString(),mail.text.toString())
+         if(mdp.text.toString()==mdpSec.text.toString()){
+             toServer(pseudo.text.toString(),mdp.text.toString(),mail.text.toString())
+             val handler = Handler()
+             progressDialog = ProgressDialog(this)
+             progressDialog.setTitle("Connection")
+             progressDialog.setMessage("En cours de connection")
+             progressDialog.show()
+             handler.postDelayed({ changeView() }, 2000)
+         }
+         Toast.makeText(this, "MDP et confirmation MDP ne sont pas identique ", Toast.LENGTH_SHORT).show()
      }
+
 
     }
 
@@ -67,6 +83,7 @@ class Register : AppCompatActivity() {
             Response.Listener { response ->
                 Log.i("toServeur", "Send")
                 Toast.makeText(this, "Reponse $response", Toast.LENGTH_SHORT).show()
+                message = response
             },
             Response.ErrorListener { volleyError -> // error occurred
                 Log.i("toServeur", "Error")}) {
@@ -84,5 +101,18 @@ class Register : AppCompatActivity() {
         }
         // Adding request to request queue
         volleyRequestQueue?.add(strReq)
+    }
+
+    fun changeView(){
+        Log.i("ChanegView","Je suis la")
+        if (message == "OK"){
+            progressDialog.dismiss()
+            Toast.makeText(this, "Compte crée", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, Login::class.java)
+            startActivity(intent)
+        }else{
+            progressDialog.dismiss()
+            Toast.makeText(this, "Probleme lors de la création du compte", Toast.LENGTH_SHORT).show()
+        }
     }
 }
