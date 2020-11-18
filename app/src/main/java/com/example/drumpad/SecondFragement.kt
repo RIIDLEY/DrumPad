@@ -50,10 +50,6 @@ class SecondFragement : Fragment() {
             progressDialog.setMessage("En cours de connection")
             progressDialog.show()
             val handler = Handler()
-            var mApp = Var()
-            mApp.globalVar = "coucou"
-            var strGlobalVar = mApp.globalVar
-            Log.i("VARGLOBAL",strGlobalVar)
             handler.postDelayed({ changeView() }, 500)
 
 
@@ -107,15 +103,12 @@ class SecondFragement : Fragment() {
 
     fun changeView(){
         Log.i("ChanegView","Je suis la")
-        var mApp = Var()
         if (Yest == "OK"){
-            mApp.setLog(true)
             progressDialog.dismiss()
             Toast.makeText(requireContext(), "Connecté", Toast.LENGTH_SHORT).show()
             val intent = Intent(context, Commu::class.java)
             startActivity(intent)
         }else{
-            mApp.setLog(false)
             progressDialog.dismiss()
             Toast.makeText(requireContext(), "Pseudo ou mot de passe incorrect", Toast.LENGTH_SHORT).show()
         }

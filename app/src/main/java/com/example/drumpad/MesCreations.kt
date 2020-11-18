@@ -25,6 +25,9 @@ class MesCreations : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mes_creations)
 
+        val wallpaperDirectory = File("/storage/emulated/0/DrumPadRec/")
+        wallpaperDirectory.mkdirs()
+
         retour.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
