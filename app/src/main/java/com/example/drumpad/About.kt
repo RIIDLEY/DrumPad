@@ -2,6 +2,7 @@ package com.example.drumpad
 
 import android.app.ProgressDialog
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -23,7 +24,7 @@ import java.util.*
 class About : AppCompatActivity() {
     private lateinit var player: MediaPlayer
     private lateinit var mediaPlayer: MediaPlayer
-    private val rtspUrl = "http://lahoucine-hamsek.site/Jasmin.mp3"
+    private val rtspUrl = "http://lahoucine-hamsek.site/uploads/recording1.mp3"
 
 //    internal var conn: Connection? = null
     internal var username = "username" // provide the username
@@ -37,9 +38,11 @@ class About : AppCompatActivity() {
 //        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
 //        StrictMode.setThreadPolicy(policy)
 
-        //player = MediaPlayer.create(this@About, Uri.parse("http://lahoucine-hamsek.site/Jasmin.mp3"))
+        player = MediaPlayer()
         Log.i("TEST", "coucou")
-        //player.start()
+        player.setDataSource(rtspUrl)
+        player.prepare()
+        player.start()
 
         }
 

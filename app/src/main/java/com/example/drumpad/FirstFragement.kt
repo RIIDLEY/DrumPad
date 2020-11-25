@@ -24,8 +24,9 @@ import java.util.HashMap
 class FirstFragement : Fragment() {
 
     val serverAPIURL: String = "http://lahoucine-hamsek.site/test.php"
-    var server: String = "http://lahoucine-hamsek.site/"
-    var rep: String = ""
+    var server = "http://lahoucine-hamsek.site/uploads/"
+    var toserver = ""
+    var rep = ""
     var titre: String = ""
     private var mp: MediaPlayer? = null
     private var nbmusique: Int = 1
@@ -39,6 +40,15 @@ class FirstFragement : Fragment() {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_first_fragement, container, false)
         // Inflate the layout for this fragment
+
+
+        toServerLogin(nbmusique)
+        GlobalScope.launch {
+            delay(1500)
+            toserver = server + rep
+            controlSound(toserver,rep)
+        }
+
         view.skip_Co.setOnClickListener {
             if (mp!==null){
                 mp?.stop()
@@ -47,9 +57,13 @@ class FirstFragement : Fragment() {
                 mp = null
             }
             nbmusique+=1
+            Log.i("nbMusique",nbmusique.toString())
             toServerLogin(nbmusique)
-            server+=rep
-            controlSound(server,rep)
+            GlobalScope.launch {
+                delay(1500)
+                toserver = server + rep
+                controlSound(toserver,rep)
+            }
         }
         view.back_Co.setOnClickListener {
             if (mp!==null){
@@ -60,8 +74,11 @@ class FirstFragement : Fragment() {
             }
             nbmusique-=1
             toServerLogin(nbmusique)
-            server+=rep
-            controlSound(server,rep)
+            GlobalScope.launch {
+                delay(1500)
+                toserver = server + rep
+                controlSound(toserver,rep)
+            }
         }
         return view
 
@@ -69,13 +86,6 @@ class FirstFragement : Fragment() {
     }
 
     override fun onStart() {
-
-        toServerLogin(nbmusique)
-        GlobalScope.launch {
-            delay(1500)
-            server+=rep
-            controlSound(server,rep)
-        }
         super.onStart()
     }
 
@@ -90,7 +100,10 @@ class FirstFragement : Fragment() {
 
         view?.start_Co?.setOnClickListener {
             if (mp == null) {
-                mp = MediaPlayer.create(requireContext(), Uri.parse(File))
+                mp = MediaPlayer()
+                mp?.setDataSource(File)
+                mp?.prepare()
+                mp?.start()
                 //Log.d("MesCreations", "ID:${mp!!.audioSessionId}")
             }
             // initSeekBar()
@@ -110,7 +123,7 @@ class FirstFragement : Fragment() {
             mp?.release()
             mp = null
         }
-
+        toserver = ""
     }
 
 
