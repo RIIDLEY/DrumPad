@@ -16,6 +16,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.login.*
+import kotlinx.coroutines.*
 import java.util.HashMap
 
 var rep: String = ""
@@ -49,8 +50,10 @@ class Login : AppCompatActivity() {
             progressDialog.setTitle("Connection")
             progressDialog.setMessage("En cours de connection")
             progressDialog.show()
-            val handler = Handler()
-            handler.postDelayed({ changeView() }, 1000)
+            GlobalScope.launch {
+                delay(1000)
+                changeView()
+            }
 
         }
 
@@ -67,8 +70,10 @@ class Login : AppCompatActivity() {
             progressDialog.setTitle("Connection")
             progressDialog.setMessage("En cours de connection")
             progressDialog.show()
-            val handler = Handler()
-            handler.postDelayed({ changeView() }, 1000)
+            GlobalScope.launch {
+                delay(1000)
+                changeView()
+            }
         }
     }
 
@@ -119,7 +124,7 @@ class Login : AppCompatActivity() {
             editor.putString(key2, pass)
             editor.apply()
 
-            Toast.makeText(this, "Connecté", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Connecté", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, Commu::class.java)
             startActivity(intent)
         }else{
