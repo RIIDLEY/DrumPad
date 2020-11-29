@@ -1,16 +1,25 @@
 package com.example.drumpad
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.preference.PreferenceManager
+import com.android.volley.AuthFailureError
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.retour
 import kotlinx.android.synthetic.main.activity_mes_creations.*
 import kotlinx.android.synthetic.main.dialog_view.*
 import java.io.File
+import java.util.HashMap
 
 class MesCreations : AppCompatActivity() {
 
@@ -20,8 +29,12 @@ class MesCreations : AppCompatActivity() {
     private var sizeListe: Int = 0
     private var idOnPlay: Int = 0
     private var titre: String = ""
+    private var titreActuel: String = ""
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mes_creations)
 
@@ -83,6 +96,7 @@ class MesCreations : AppCompatActivity() {
             titre+=File[i]
         }
         titreMusique.text = titre
+        titreActuel = titre;
         titre = ""
 
         start.setOnClickListener {
@@ -111,7 +125,14 @@ class MesCreations : AppCompatActivity() {
         }
 
         upload.setOnClickListener {
-            UploadUtility(this).uploadFile(File)
+            if (sharedPreferences.getString("Login","")?.isNotEmpty()!!) {
+                UploadUtility(this).uploadFile(File)
+                toServerLogin("$titreActuel.mp3", sharedPreferences.getString("Login", "")!!)
+            }else{
+                val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
+                    .setTitle("Vous devez avoir un compte pour upload votre musique")
+                dialog.show()
+            }
         }
 
 
@@ -119,4 +140,35 @@ class MesCreations : AppCompatActivity() {
         //   SeekBar.setOnSeekBarChangeListener(object )
         }
 
+
+    fun toServerLogin(musique: String, createur: String){
+        volleyRequestQueue = Volley.newRequestQueue(this)
+        val parameters: MutableMap<String, String> = HashMap()
+        parameters.put("musique",musique)
+        parameters.put("createur",createur)
+        parameters.put("fonction","insertMusique")
+        val strReq: StringRequest = object : StringRequest(
+            Method.POST,serverAPIURL,
+            Response.Listener { response ->
+                Log.i("toServeur", "Send")
+                Toast.makeText(this, "Reponse $response", Toast.LENGTH_SHORT).show()
+                rep = response
+            },
+            Response.ErrorListener { volleyError -> // error occurred
+                Log.i("toServeur", "Error")}) {
+
+            override fun getParams(): MutableMap<String, String> {
+                return parameters;
+            }
+
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                // Add your Header paramters here
+                return headers
+            }
+        }
+        // Adding request to request queue
+        volleyRequestQueue?.add(strReq)
+    }
     }
