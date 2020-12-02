@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -33,29 +35,18 @@ class SecondFragement : Fragment() {
 
     //var dialog: AlertDialog.Builder = AlertDialog.Builder(context)
     lateinit var progressDialog: ProgressDialog
+    lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val view: View = inflater!!.inflate(R.layout.fragment_second_fragement, container, false)
        // return inflater.inflate(R.layout.fragment_second_fragement, container, false)
-
-        view.button.setOnClickListener {
-            Log.i("Login","Bouton Oui")
-            toServerLogin(pseudo.text.toString(),mdp.text.toString())
-            progressDialog = ProgressDialog(context)
-            progressDialog.setTitle("Connection")
-            progressDialog.setMessage("En cours de connection")
-            progressDialog.show()
-            val handler = Handler()
-            handler.postDelayed({ changeView() }, 500)
-
-
-            Log.i("Retour serveur", Yest)
-        }
-
+        val l: String = sharedPreferences.getString("Login","")!!
+        view.pseudo.text = l
         return view
     }
 

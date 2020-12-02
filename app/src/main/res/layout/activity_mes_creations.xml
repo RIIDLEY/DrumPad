@@ -31,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -48,18 +49,22 @@
 
             <Button
                 android:id="@+id/start"
+                android:background="@drawable/log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:text="Start" />
 
             <Button
                 android:id="@+id/pause"
+                android:background="@drawable/log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pause" />
 
             <Button
                 android:id="@+id/stop"
+                android:background="@drawable/log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Stop" />
@@ -74,18 +79,21 @@
             android:orientation="horizontal">
             <Button
                 android:id="@+id/skip"
+                android:background="@drawable/log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Skip" />
 
             <Button
                 android:id="@+id/back"
+                android:background="@drawable/log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Back" />
 
             <Button
                 android:id="@+id/upload"
+                android:background="@drawable/log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Upload" />

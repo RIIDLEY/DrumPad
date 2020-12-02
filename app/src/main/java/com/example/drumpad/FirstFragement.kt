@@ -29,7 +29,7 @@ class FirstFragement : Fragment() {
     var rep = ""
     var titre: String = ""
     private var mp: MediaPlayer? = null
-    private var nbmusique: Int = 1
+    private var nbmusique: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -41,8 +41,8 @@ class FirstFragement : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_first_fragement, container, false)
         // Inflate the layout for this fragment
 
-
-        toServerLogin(nbmusique)
+        toServerLogin(0,"getNbMax")
+        toServerLogin(nbmusique,"Array")
         GlobalScope.launch {
             delay(1500)
             toserver = server + rep
@@ -58,12 +58,6 @@ class FirstFragement : Fragment() {
             }
             nbmusique+=1
             Log.i("nbMusique",nbmusique.toString())
-            toServerLogin(nbmusique)
-            GlobalScope.launch {
-                delay(1500)
-                toserver = server + rep
-                controlSound(toserver,rep)
-            }
         }
         view.back_Co.setOnClickListener {
             if (mp!==null){
@@ -73,7 +67,7 @@ class FirstFragement : Fragment() {
                 mp = null
             }
             nbmusique-=1
-            toServerLogin(nbmusique)
+            toServerLogin(nbmusique,"Array")
             GlobalScope.launch {
                 delay(1500)
                 toserver = server + rep
@@ -128,10 +122,10 @@ class FirstFragement : Fragment() {
 
 
 
-    fun toServerLogin(id: Int){
+    fun toServerLogin(id: Int, fonction: String){
         volleyRequestQueue = Volley.newRequestQueue(requireContext())
         val parameters: MutableMap<String, String> = HashMap()
-        parameters.put("fonction","array")
+        parameters.put("fonction",fonction)
         parameters.put("id",id.toString())
         val strReq: StringRequest = object : StringRequest(
             Method.POST,serverAPIURL,

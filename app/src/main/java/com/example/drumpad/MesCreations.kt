@@ -4,25 +4,31 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.media.MediaPlayer
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.SeekBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.retour
 import kotlinx.android.synthetic.main.activity_mes_creations.*
-import kotlinx.android.synthetic.main.dialog_view.*
+import kotlinx.coroutines.*
 import java.io.File
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.Map
+import kotlin.collections.MutableList
+import kotlin.collections.MutableMap
+import kotlin.collections.forEach
+import kotlin.collections.mutableListOf
 
 class MesCreations : AppCompatActivity() {
 
+    var seekbarcoroutine: Job? = null
     private var mp: MediaPlayer? = null
     private var currentSong: MutableList<Int> = mutableListOf(R.raw.cymbal1)
     private val ListeFichier: ArrayList<String> = ArrayList<String>()
@@ -46,10 +52,11 @@ class MesCreations : AppCompatActivity() {
             startActivity(intent)
         }
         getFichier()
-        Log.i("Fichier",ListeFichier[0])
+        Log.i("Fichier", ListeFichier[0])
         controlSound(ListeFichier[0])
 
         skip.setOnClickListener {
+            SeekBar.progress = 0
             if (mp!==null){
                 mp?.stop()
                 mp?.reset()
@@ -65,6 +72,7 @@ class MesCreations : AppCompatActivity() {
         }
 
         back.setOnClickListener {
+            SeekBar.progress = 0
             if (mp!==null){
                 mp?.stop()
                 mp?.reset()
@@ -85,7 +93,7 @@ class MesCreations : AppCompatActivity() {
 
     private fun getFichier(){
         File("/storage/emulated/0/DrumPadRec").list().forEach {
-            ListeFichier.add("/storage/emulated/0/DrumPadRec/"+it)
+            ListeFichier.add("/storage/emulated/0/DrumPadRec/" + it)
         }
         sizeListe = ListeFichier.size
     }
@@ -103,29 +111,33 @@ class MesCreations : AppCompatActivity() {
             if (mp==null) {
                 mp = MediaPlayer()
                 mp?.setDataSource(File)
+                Log.i("DataSource", File)
                 mp?.prepare()
                 Log.d("MesCreations", "ID:${mp!!.audioSessionId}")
             }
-               // initSeekBar()
+            //initialiseSeekBar()
 
             mp?.start()
-            Log.d("MesCreations","Durée: ${mp!!.duration/1000} seconds")
+            Log.d("MesCreations", "Durée: ${mp!!.duration / 1000} seconds")
         }
 
         pause.setOnClickListener {
             mp?.pause()
-            Log.d("MesCreations","Je suis en pause: ${mp!!.currentPosition/1000} seconds")
+            Log.d("MesCreations", "Je suis en pause: ${mp!!.currentPosition / 1000} seconds")
         }
 
         stop.setOnClickListener {
-            mp?.stop()
-            mp?.reset()
-            mp?.release()
-            mp = null
+                //seekbarcoroutine?.cancel("message")
+                //SeekBar.progress = 0
+                mp?.stop()
+                mp?.reset()
+                mp?.release()
+                mp = null
+
         }
 
         upload.setOnClickListener {
-            if (sharedPreferences.getString("Login","")?.isNotEmpty()!!) {
+            if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {
                 UploadUtility(this).uploadFile(File)
                 toServerLogin("$titreActuel.mp3", sharedPreferences.getString("Login", "")!!)
             }else{
@@ -135,27 +147,59 @@ class MesCreations : AppCompatActivity() {
             }
         }
 
+        SeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) mp?.seekTo(progress)
+            }
 
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
 
-        //   SeekBar.setOnSeekBarChangeListener(object )
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+        })
+
         }
 
+    fun initialiseSeekBar(){
+        SeekBar.max = mp!!.duration
+        var max = mp!!.duration
+        var pos = 0
+        var div:Long = (100/max*1000).toLong()
+        seekbarcoroutine = GlobalScope.launch {
+           while (pos != max){
+                try {
+                    mp?.let {
+                        SeekBar.progress = it.currentPosition
+                        pos = it.currentPosition
+                    }
+                }catch (e: Exception){
+                }
+               delay(div)
+                }
+            delay(div)
+            SeekBar.progress = 0
+            }
+
+        }
 
     fun toServerLogin(musique: String, createur: String){
         volleyRequestQueue = Volley.newRequestQueue(this)
         val parameters: MutableMap<String, String> = HashMap()
-        parameters.put("musique",musique)
-        parameters.put("createur",createur)
-        parameters.put("fonction","insertMusique")
+        parameters.put("musique", musique)
+        parameters.put("createur", createur)
+        parameters.put("fonction", "insertMusique")
         val strReq: StringRequest = object : StringRequest(
-            Method.POST,serverAPIURL,
+            Method.POST, serverAPIURL,
             Response.Listener { response ->
                 Log.i("toServeur", "Send")
                 Toast.makeText(this, "Reponse $response", Toast.LENGTH_SHORT).show()
                 rep = response
             },
             Response.ErrorListener { volleyError -> // error occurred
-                Log.i("toServeur", "Error")}) {
+                Log.i("toServeur", "Error")
+            }) {
 
             override fun getParams(): MutableMap<String, String> {
                 return parameters;
@@ -171,4 +215,8 @@ class MesCreations : AppCompatActivity() {
         // Adding request to request queue
         volleyRequestQueue?.add(strReq)
     }
+
+    fun onPrepared(player: MediaPlayer) {
+        player.start()
     }
+}
