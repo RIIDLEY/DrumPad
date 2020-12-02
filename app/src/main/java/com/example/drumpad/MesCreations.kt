@@ -216,7 +216,5 @@ class MesCreations : AppCompatActivity() {
         volleyRequestQueue?.add(strReq)
     }
 
-    fun onPrepared(player: MediaPlayer) {
-        player.start()
-    }
+
 }
