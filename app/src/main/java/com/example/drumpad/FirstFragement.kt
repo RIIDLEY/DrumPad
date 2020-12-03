@@ -25,10 +25,14 @@ class FirstFragement : Fragment() {
 
     val serverAPIURL: String = "http://lahoucine-hamsek.site/test.php"
     var server = "http://lahoucine-hamsek.site/uploads/"
+    var firtmusique: String = "http://lahoucine-hamsek.site/uploads/titre2.mp3"
     var toserver = ""
     var rep = ""
     var titre: String = ""
     var nbMax: Int = 0
+    var premier: Boolean = true
+    var fini2: Boolean = false
+    var fini: Boolean = false
     private var mp: MediaPlayer? = null
     private var nbmusique: Int = 0
 
@@ -43,24 +47,29 @@ class FirstFragement : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_first_fragement, container, false)
         // Inflate the layout for this fragment
 
+        //controlSound("http://lahoucine-hamsek.site/uploads/recording1.mp3","recording1.mp3")
         toServerLogin(0,"getNbMax")
         Log.i("getNbMax",nbMax.toString())
-        toServerLogin(nbmusique,"musique")
 
-        val jobs: Job = GlobalScope.launch {
-            delay(1000)
+       toServerLogin(nbmusique,"musique")
+
+        GlobalScope.launch {
+            delay(1500)
             toserver = server + rep
             Log.i("toserveur1",toserver)
             Log.i("rep",rep)
+            fini = true
         }
 
-        GlobalScope.launch {
-            jobs.start()
-            jobs.join()
-            Log.i("Thread","JE SUIS FINI")
+        controlSound(firtmusique,"titre2.mp3")
+        while (true && fini2==false){
+            if (fini == true){
+                Log.i("CONTROLSOUND","J4AI TOURNE")
+                controlSound(toserver,rep)
+                fini2 = true
+            }
         }
-        controlSound(toserver,rep)
-        Log.i("CONTROLSOUND","J4AI TOURNE")
+
 
         view.skip_Co.setOnClickListener {
             Log.i("SKIP","skip")
@@ -111,11 +120,12 @@ class FirstFragement : Fragment() {
     private fun controlSound(File: String, namefile: String) {
 
         Log.i("controlSound","tourne")
-
         for (i in 0..namefile.length - 5) {
             titre += namefile[i]
         }
         view?.titre?.text = titre
+        Log.i("titre",titre)
+        Log.i("filename",namefile)
         titre = ""
 
         view?.start_Co?.setOnClickListener {
@@ -164,7 +174,14 @@ class FirstFragement : Fragment() {
                 Log.i("reponse du serveur",response )
                 if (fonction == "getNbMax"){
                     nbMax = response.toInt()
-                }else{
+                }
+                /*if (fonction == "musique" && (premier)){
+                    premier = false
+                    toserver = server + response
+                    Log.i("j",toserver)
+                    controlSound(toserver,rep)
+                }*/
+                else{
                     rep = response
                 }
             },
@@ -186,8 +203,5 @@ class FirstFragement : Fragment() {
         volleyRequestQueue?.add(strReq)
     }
 
-    suspend fun init(){
-
-    }
 }
 
