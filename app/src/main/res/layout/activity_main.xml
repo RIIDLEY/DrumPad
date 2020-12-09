@@ -26,6 +26,7 @@
         >
 
         <Button
+            android:id="@+id/mamusique"
             android:layout_width="75dp"
             android:layout_height="50dp"
             android:text="Ma musique"
@@ -42,15 +43,6 @@
             android:text="Rec"
             android:textColor="#FFFFFF"/>
 
-        <Button
-            android:id="@+id/login"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
-            android:text="Profil"
-            android:background="@drawable/log"
-            android:gravity="center"
-            android:layout_margin="10dp"
-            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

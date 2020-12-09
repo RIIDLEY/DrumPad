@@ -54,24 +54,14 @@ class DrumPad : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        login.setOnClickListener {
-            //val intent = Intent(this, FtpServer::class.java)
-            //startActivity(intent)
-            File("/storage/emulated/0/DrumPadRec").list().forEach {
-
-                Log.i("Fichier",it.toString())
-                Log.i("Taille",it.length.toString())
-                for(i in 0..it.length-5){
-                    titre+=it.toString()[i]
-                }
-                Log.i("Titre",titre)
-                titre =""
-            }
-            UploadUtility(this).uploadFile("/storage/emulated/0/DrumPadRec/recording1.mp3")
-        }
 
         retour.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        mamusique.setOnClickListener {
+            val intent = Intent(this, MesCreations::class.java)
             startActivity(intent)
         }
 

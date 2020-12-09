@@ -10,8 +10,6 @@
     android:paddingLeft="30dp">
 
 
-
-
     <EditText
         android:id="@+id/titre"
         android:singleLine="true"

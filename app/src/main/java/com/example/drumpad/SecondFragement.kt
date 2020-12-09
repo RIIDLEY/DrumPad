@@ -47,6 +47,8 @@ class SecondFragement : Fragment() {
        // return inflater.inflate(R.layout.fragment_second_fragement, container, false)
         val l: String = sharedPreferences.getString("Login","")!!
         view.pseudo.text = l
+        view.textView.text = "Nombre de musique en ligne : " + sharedPreferences.getString("NbMusique","")!!
+        view.textView2.text = "Nombre d'étoile collectée : " + 0
         return view
     }
 

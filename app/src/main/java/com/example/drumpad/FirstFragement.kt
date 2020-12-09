@@ -1,5 +1,6 @@
 package com.example.drumpad
 
+import android.app.AlertDialog
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -8,6 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.RadioButton
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -15,6 +18,8 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_mes_creations.*
 import kotlinx.android.synthetic.main.activity_mes_creations.view.*
+import kotlinx.android.synthetic.main.dialog_note.*
+import kotlinx.android.synthetic.main.dialog_note.view.*
 import kotlinx.android.synthetic.main.fragment_first_fragement.*
 import kotlinx.android.synthetic.main.fragment_first_fragement.view.*
 import kotlinx.coroutines.*
@@ -35,6 +40,7 @@ class FirstFragement : Fragment() {
     var fini: Boolean = false
     private var mp: MediaPlayer? = null
     private var nbmusique: Int = 0
+    lateinit var radioButton: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +54,10 @@ class FirstFragement : Fragment() {
         // Inflate the layout for this fragment
 
         //controlSound("http://lahoucine-hamsek.site/uploads/recording1.mp3","recording1.mp3")
-        toServerLogin(0,"getNbMax")
+        toServerLogin(0,"getNbMax","","")
         Log.i("getNbMax",nbMax.toString())
 
-       toServerLogin(nbmusique,"musique")
+       toServerLogin(nbmusique,"musique","","")
 
         GlobalScope.launch {
             delay(1500)
@@ -71,6 +77,13 @@ class FirstFragement : Fragment() {
         }
 
 
+/*
+        mp = MediaPlayer()
+        mp?.setDataSource(firtmusique)
+        mp?.prepare()
+        view.titre?.text = "titre2"
+        controlSound("oui","oui")
+*/
         view.skip_Co.setOnClickListener {
             Log.i("SKIP","skip")
             if (mp!==null){
@@ -84,7 +97,7 @@ class FirstFragement : Fragment() {
             }else{
                 nbmusique+=1
             }
-            toServerLogin(nbmusique,"musique")
+            toServerLogin(nbmusique,"musique","","")
             toserver = server + rep
             controlSound(toserver,rep)
             Log.i("nbMusique",nbmusique.toString())
@@ -103,7 +116,7 @@ class FirstFragement : Fragment() {
             }else{
                 nbmusique-=1
             }
-            toServerLogin(nbmusique,"musique")
+            toServerLogin(nbmusique,"musique","","")
             toserver = server + rep
             controlSound(toserver,rep)
         }
@@ -118,15 +131,16 @@ class FirstFragement : Fragment() {
 
 
     private fun controlSound(File: String, namefile: String) {
-
-        Log.i("controlSound","tourne")
-        for (i in 0..namefile.length - 5) {
-            titre += namefile[i]
+        if (File != "oui"){
+            Log.i("controlSound","tourne")
+            for (i in 0..namefile.length - 5) {
+                titre += namefile[i]
+            }
+            view?.titre?.text = titre
+            Log.i("titre",titre)
+            Log.i("filename",namefile)
+            titre = ""
         }
-        view?.titre?.text = titre
-        Log.i("titre",titre)
-        Log.i("filename",namefile)
-        titre = ""
 
         view?.start_Co?.setOnClickListener {
             Log.i("START","start")
@@ -134,7 +148,7 @@ class FirstFragement : Fragment() {
                 mp = MediaPlayer()
                 mp?.setDataSource(File)
                 mp?.prepare()
-                mp?.start()
+                //mp?.start()
                 //Log.d("MesCreations", "ID:${mp!!.audioSessionId}")
             }
             // initSeekBar()
@@ -156,16 +170,34 @@ class FirstFragement : Fragment() {
             mp?.release()
             mp = null
         }
+
+        view?.note?.setOnClickListener {
+            val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_note,null)
+            val dialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                .setPositiveButton("Voter"){dialog, which ->
+                    val selectedOption: Int = view?.radioGroup1.checkedRadioButtonId
+                    radioButton = view?.findViewById(selectedOption)
+                    Log.i("Envoyé","Oui")
+                    Log.i("Envoyé",namefile)
+                    toServerLogin(0,"etoile",radioButton.text.toString(),namefile)
+                }
+                .setView(view)
+            dialog.show()
+        }
         toserver = ""
     }
 
+    fun vote(){
 
+    }
 
-    fun toServerLogin(id: Int, fonction: String){
+    fun toServerLogin(id: Int, fonction: String,etoile: String, namefile: String){
         volleyRequestQueue = Volley.newRequestQueue(requireContext())
         val parameters: MutableMap<String, String> = HashMap()
         parameters.put("fonction",fonction)
         parameters.put("id",id.toString())
+        parameters.put("etoile",etoile)
+        parameters.put("musique",namefile)
         val strReq: StringRequest = object : StringRequest(
             Method.POST,serverAPIURL,
             Response.Listener { response ->
