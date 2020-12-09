@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        commu.setOnClickListener {
+        TEST.setOnClickListener {
             val intent = Intent(this, Commu::class.java)
             startActivity(intent)
         }
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        TEST.setOnClickListener {
+        commu.setOnClickListener {
             if (sharedPreferences.getString("Login","")?.isNotEmpty()!!){
                 val intent = Intent(this, Commu::class.java)
                 startActivity(intent)

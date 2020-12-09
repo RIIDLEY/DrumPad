@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.media.MediaPlayer
+import android.media.MediaPlayer.OnPreparedListener
 import android.os.Bundle
 import android.util.Log
 import android.widget.SeekBar
@@ -16,15 +17,14 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_main.retour
 import kotlinx.android.synthetic.main.activity_mes_creations.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.Map
-import kotlin.collections.MutableList
-import kotlin.collections.MutableMap
-import kotlin.collections.forEach
-import kotlin.collections.mutableListOf
+
 
 class MesCreations : AppCompatActivity() {
 
@@ -38,6 +38,8 @@ class MesCreations : AppCompatActivity() {
     private var titreActuel: String = ""
     val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
     lateinit var sharedPreferences: SharedPreferences
+    private var nouvellemusique: Boolean = false
+    private var isStop: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -57,6 +59,7 @@ class MesCreations : AppCompatActivity() {
 
         skip.setOnClickListener {
             SeekBar.progress = 0
+            nouvellemusique=true
             if (mp!==null){
                 mp?.stop()
                 mp?.reset()
@@ -68,11 +71,13 @@ class MesCreations : AppCompatActivity() {
             }else{
                 idOnPlay+=1
             }
+            SeekBar.progress = 0
             controlSound(ListeFichier[idOnPlay])
         }
 
         back.setOnClickListener {
             SeekBar.progress = 0
+            nouvellemusique=true
             if (mp!==null){
                 mp?.stop()
                 mp?.reset()
@@ -84,12 +89,11 @@ class MesCreations : AppCompatActivity() {
             }else{
                 idOnPlay-=1
             }
+            SeekBar.progress = 0
             controlSound(ListeFichier[idOnPlay])
         }
 
     }
-
-
 
     private fun getFichier(){
         File("/storage/emulated/0/DrumPadRec").list().forEach {
@@ -108,16 +112,25 @@ class MesCreations : AppCompatActivity() {
         titre = ""
 
         start.setOnClickListener {
+            nouvellemusique=false
             if (mp==null) {
                 mp = MediaPlayer()
                 mp?.setDataSource(File)
                 Log.i("DataSource", File)
+                //mp?.setOnPreparedListener(OnPreparedListener {
+                  //  mp?.start()
+                    //initialiseSeekBar()
+                //})
                 mp?.prepare()
                 Log.d("MesCreations", "ID:${mp!!.audioSessionId}")
             }
-            //initialiseSeekBar()
+            // else{
+                mp?.start()
+                initialiseSeekBar()
+            //}
 
-            mp?.start()
+
+
             Log.d("MesCreations", "Durée: ${mp!!.duration / 1000} seconds")
         }
 
@@ -125,16 +138,16 @@ class MesCreations : AppCompatActivity() {
             mp?.pause()
             Log.d("MesCreations", "Je suis en pause: ${mp!!.currentPosition / 1000} seconds")
         }
-
+/*
         stop.setOnClickListener {
-                //seekbarcoroutine?.cancel("message")
-                //SeekBar.progress = 0
+                isStop=true
+                SeekBar.progress = 0
                 mp?.stop()
                 mp?.reset()
                 mp?.release()
-                mp = null
+                mp=null
 
-        }
+        }*/
 
         upload.setOnClickListener {
             if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {
@@ -177,7 +190,13 @@ class MesCreations : AppCompatActivity() {
                 }catch (e: Exception){
                 }
                delay(div)
+               if (nouvellemusique==true){
+                   Log.i("BREAK", "BREAK")
+                   SeekBar.progress = 0
+                   break
+               }
                 }
+            SeekBar.progress = 0
             delay(div)
             SeekBar.progress = 0
             }

@@ -15,16 +15,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/titreMusique"
-        android:textColor="#FFFFFF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="titre"
+    <ImageView
+        android:id="@+id/image_deco"
+        android:layout_width="450px"
+        android:layout_height="450px"
+        android:src="@drawable/logo_mescreations"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titreMusique"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="titre"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_deco" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -38,6 +48,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <SeekBar
+            android:paddingBottom="50px"
             android:id="@+id/SeekBar"
             android:layout_width="300dp"
             android:layout_height="wrap_content" />
@@ -62,12 +73,6 @@
                 android:layout_height="wrap_content"
                 android:text="Pause" />
 
-            <Button
-                android:id="@+id/stop"
-                android:background="@drawable/log"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Stop" />
 
         </LinearLayout>
 
