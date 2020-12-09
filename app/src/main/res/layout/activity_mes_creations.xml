@@ -50,6 +50,7 @@
         <SeekBar
             android:paddingBottom="50px"
             android:id="@+id/SeekBar"
+            android:progress="0"
             android:layout_width="300dp"
             android:layout_height="wrap_content" />
 

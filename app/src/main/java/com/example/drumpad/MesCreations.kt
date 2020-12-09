@@ -61,6 +61,7 @@ class MesCreations : AppCompatActivity() {
             SeekBar.progress = 0
             nouvellemusique=true
             if (mp!==null){
+                SeekBar.progress = 0
                 mp?.stop()
                 mp?.reset()
                 mp?.release()
@@ -103,6 +104,7 @@ class MesCreations : AppCompatActivity() {
     }
 
     private fun controlSound(File: String){
+        SeekBar.progress = 0
 
         for(i in 31..File.length-5){
             titre+=File[i]
@@ -182,14 +184,16 @@ class MesCreations : AppCompatActivity() {
         var div:Long = (100/max*1000).toLong()
         seekbarcoroutine = GlobalScope.launch {
            while (pos != max){
-                try {
-                    mp?.let {
-                        SeekBar.progress = it.currentPosition
-                        pos = it.currentPosition
-                    }
-                }catch (e: Exception){
-                }
-               delay(div)
+               if(nouvellemusique==false){
+                   try {
+                       mp?.let {
+                           SeekBar.progress = it.currentPosition
+                           pos = it.currentPosition
+                       }
+                   }catch (e: Exception){
+                   }
+                   delay(130)
+               }
                if (nouvellemusique==true){
                    Log.i("BREAK", "BREAK")
                    SeekBar.progress = 0
@@ -197,7 +201,7 @@ class MesCreations : AppCompatActivity() {
                }
                 }
             SeekBar.progress = 0
-            delay(div)
+            //delay(130)
             SeekBar.progress = 0
             }
 
