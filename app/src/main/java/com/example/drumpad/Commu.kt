@@ -1,6 +1,7 @@
 package com.example.drumpad
 
 
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -45,6 +46,12 @@ class Commu : AppCompatActivity() {
                     replace(R.id.fragment, fragement2)
                     commit()}
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, Accueil::class.java)
+        startActivity(intent)
     }
 
     fun toServerLogin(fonction: String){

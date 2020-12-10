@@ -145,9 +145,6 @@ class MesCreations : AppCompatActivity() {
                 mp?.start()
                 initialiseSeekBar()
 
-
-
-
             Log.d("MesCreations", "Durée: ${mp!!.duration / 1000} seconds")
         }
 
@@ -162,7 +159,9 @@ class MesCreations : AppCompatActivity() {
                 toServerLogin("$titreActuel.mp3", sharedPreferences.getString("Login", "")!!)
             }else{
                 val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
-                    .setTitle("Vous devez avoir un compte pour upload votre musique")
+                    .setTitle("")
+                    .setMessage("Vous devez avoir un compte pour upload votre musique.\nRendez vous dans l'onglet Communauté")
+                    .setNegativeButton("Ok",null)
                 dialog.show()
             }
         }
