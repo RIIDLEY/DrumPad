@@ -23,6 +23,14 @@ class DrumPad : AppCompatActivity() {
 
     var mediaPlayer1: MediaPlayer? = null
     var mediaPlayer2: MediaPlayer? = null
+    var mediaPlayer3: MediaPlayer? = null
+    var mediaPlayer4: MediaPlayer? = null
+    var mediaPlayer5: MediaPlayer? = null
+    var mediaPlayer6: MediaPlayer? = null
+    var mediaPlayer7: MediaPlayer? = null
+    var mediaPlayer8: MediaPlayer? = null
+    var mediaPlayer9: MediaPlayer? = null
+
     var fichiermp3: String? = null
     var mediaRecorder: MediaRecorder? = null
     var recEnCours: Boolean = false
@@ -33,6 +41,13 @@ class DrumPad : AppCompatActivity() {
         wallpaperDirectory.mkdirs()
         mediaPlayer1 = MediaPlayer.create(this, R.raw.clapanalog)
         mediaPlayer2 = MediaPlayer.create(this, R.raw.kickelectro01)
+        mediaPlayer3 = MediaPlayer.create(this, R.raw.hihat808)
+        mediaPlayer4 = MediaPlayer.create(this, R.raw.hihatacoustic01)
+        mediaPlayer5 = MediaPlayer.create(this, R.raw.hihatanalog)
+        mediaPlayer6 = MediaPlayer.create(this, R.raw.kicksofty)
+        mediaPlayer7 = MediaPlayer.create(this, R.raw.kicktape)
+        mediaPlayer8 = MediaPlayer.create(this, R.raw.snare808)
+        mediaPlayer9 = MediaPlayer.create(this, R.raw.tomrototom)
 
 
         super.onCreate(savedInstanceState)
@@ -84,31 +99,31 @@ class DrumPad : AppCompatActivity() {
     }
 
     fun playSound3(view: View) {
-        mediaPlayer1?.start()
+        mediaPlayer3?.start()
     }
 
     fun playSound4(view: View) {
-        mediaPlayer1?.start()
+        mediaPlayer4?.start()
     }
 
     fun playSound5(view: View) {
-        mediaPlayer1?.start()
+        mediaPlayer5?.start()
     }
 
     fun playSound6(view: View) {
-        mediaPlayer1?.start()
+        mediaPlayer6?.start()
     }
 
     fun playSound7(view: View) {
-        mediaPlayer1?.start()
+        mediaPlayer7?.start()
     }
 
     fun playSound8(view: View) {
-        mediaPlayer1?.start()
+        mediaPlayer8?.start()
     }
 
     fun playSound9(view: View) {
-        mediaPlayer1?.start()
+        mediaPlayer9?.start()
     }
 
 
