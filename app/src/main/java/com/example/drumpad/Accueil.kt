@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_accueil.*
 
-class MainActivity : AppCompatActivity() {
+class Accueil : AppCompatActivity() {
 
     lateinit var sharedPreferences: SharedPreferences
 
@@ -23,14 +23,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         crea.setOnClickListener {
             val intent = Intent(this, MesCreations::class.java)
-            startActivity(intent)
-        }
-
-        TEST.setOnClickListener {
-            val intent = Intent(this, Commu::class.java)
             startActivity(intent)
         }
 
@@ -40,11 +34,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         commu.setOnClickListener {
-            if (sharedPreferences.getString("Login","")?.isNotEmpty()!!){
+            if (sharedPreferences.getString("Login","")?.isNotEmpty()!!){//Si a deja ete log
                 val intent = Intent(this, Commu::class.java)
                 startActivity(intent)
-            }else{
-                val intent = Intent(this, Login::class.java)
+            }else{//sinon il vas se log
+                val intent = Intent(this, Enregistrement::class.java)
                 startActivity(intent)
             }
         }

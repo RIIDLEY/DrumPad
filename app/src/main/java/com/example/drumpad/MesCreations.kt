@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.media.MediaPlayer
-import android.media.MediaPlayer.OnPreparedListener
 import android.os.Bundle
 import android.util.Log
 import android.widget.SeekBar
@@ -12,10 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.activity_main.retour
+import kotlinx.android.synthetic.main.activity_mes_creations.retour
 import kotlinx.android.synthetic.main.activity_mes_creations.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -29,17 +29,37 @@ import kotlin.collections.ArrayList
 class MesCreations : AppCompatActivity() {
 
     var seekbarcoroutine: Job? = null
-    private var mp: MediaPlayer? = null
-    private var currentSong: MutableList<Int> = mutableListOf(R.raw.cymbal1)
-    private val ListeFichier: ArrayList<String> = ArrayList<String>()
-    private var sizeListe: Int = 0
-    private var idOnPlay: Int = 0
-    private var titre: String = ""
-    private var titreActuel: String = ""
+    var mp: MediaPlayer? = null
+    val ListeFichier: ArrayList<String> = ArrayList<String>()
+    var sizeListe: Int = 0
+    var idOnPlay: Int = 0
+    var titre: String = ""
+    var titreActuel: String = ""
     val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+    var nouvellemusique: Boolean = false
+    var volleyRequestQueue: RequestQueue? = null
+    var rep: String = ""
     lateinit var sharedPreferences: SharedPreferences
-    private var nouvellemusique: Boolean = false
-    private var isStop: Boolean = false
+
+    override fun onStop() {
+        super.onStop()
+        if (mp!==null){
+            mp?.stop()
+            mp?.reset()
+            mp?.release()
+            mp = null
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (mp!==null){
+            mp?.stop()
+            mp?.reset()
+            mp?.release()
+            mp = null
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -50,7 +70,7 @@ class MesCreations : AppCompatActivity() {
         wallpaperDirectory.mkdirs()
 
         retour.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Accueil::class.java)
             startActivity(intent)
         }
         getFichier()
@@ -119,17 +139,12 @@ class MesCreations : AppCompatActivity() {
                 mp = MediaPlayer()
                 mp?.setDataSource(File)
                 Log.i("DataSource", File)
-                //mp?.setOnPreparedListener(OnPreparedListener {
-                  //  mp?.start()
-                    //initialiseSeekBar()
-                //})
                 mp?.prepare()
                 Log.d("MesCreations", "ID:${mp!!.audioSessionId}")
             }
-            // else{
                 mp?.start()
                 initialiseSeekBar()
-            //}
+
 
 
 
@@ -140,16 +155,6 @@ class MesCreations : AppCompatActivity() {
             mp?.pause()
             Log.d("MesCreations", "Je suis en pause: ${mp!!.currentPosition / 1000} seconds")
         }
-/*
-        stop.setOnClickListener {
-                isStop=true
-                SeekBar.progress = 0
-                mp?.stop()
-                mp?.reset()
-                mp?.release()
-                mp=null
-
-        }*/
 
         upload.setOnClickListener {
             if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {

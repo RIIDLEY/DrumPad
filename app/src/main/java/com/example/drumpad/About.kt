@@ -26,7 +26,7 @@ class About : AppCompatActivity() {
     private lateinit var mediaPlayer: MediaPlayer
     private val rtspUrl = "http://lahoucine-hamsek.site/uploads/recording1.mp3"
 
-//    internal var conn: Connection? = null
+    //    internal var conn: Connection? = null
     internal var username = "username" // provide the username
     internal var password = "password"
     internal var status: Statement? = null
@@ -44,7 +44,7 @@ class About : AppCompatActivity() {
         player.prepare()
         player.start()
 
-        }
+    }
 
 
     override fun onStart() {
@@ -56,7 +56,7 @@ class About : AppCompatActivity() {
     }
 
     override fun onStop() {
-       //mediaPlayer.stop()
+        //mediaPlayer.stop()
         //mediaPlayer.release()
         super.onStop()
     }
@@ -135,70 +135,41 @@ class About : AppCompatActivity() {
 
 
 
-        var volleyRequestQueue: RequestQueue? = null
-        val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+    var volleyRequestQueue: RequestQueue? = null
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
 
-        fun login2() {
-            volleyRequestQueue = Volley.newRequestQueue(this)
-            val parameters: MutableMap<String, String> = HashMap()
-            // Add your parameters in HashMap
-            parameters.put("id","test")
-            parameters.put("mdp","coucou")
+    fun login2() {
+        volleyRequestQueue = Volley.newRequestQueue(this)
+        val parameters: MutableMap<String, String> = HashMap()
+        // Add your parameters in HashMap
+        parameters.put("id","test")
+        parameters.put("mdp","coucou")
 
-            val strReq: StringRequest = object : StringRequest(
-                Method.POST,serverAPIURL,
-                Response.Listener { response ->
-                    Toast.makeText(this, "OK $response", Toast.LENGTH_SHORT).show()
-                },
-                Response.ErrorListener { volleyError -> // error occurred
-                    Toast.makeText(this, "ERREUR", Toast.LENGTH_SHORT).show()}) {
+        val strReq: StringRequest = object : StringRequest(
+            Method.POST,serverAPIURL,
+            Response.Listener { response ->
+                Toast.makeText(this, "OK $response", Toast.LENGTH_SHORT).show()
+            },
+            Response.ErrorListener { volleyError -> // error occurred
+                Toast.makeText(this, "ERREUR", Toast.LENGTH_SHORT).show()}) {
 
-                override fun getParams(): MutableMap<String, String> {
-                    return parameters;
-                }
-
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers: MutableMap<String, String> = HashMap()
-                    // Add your Header paramters here
-                    return headers
-                }
+            override fun getParams(): MutableMap<String, String> {
+                return parameters;
             }
-            // Adding request to request queue
-            volleyRequestQueue?.add(strReq)
+
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                // Add your Header paramters here
+                return headers
+            }
         }
-
+        // Adding request to request queue
+        volleyRequestQueue?.add(strReq)
     }
 
+}
 
 
 
-
-
-
-class Connection : AsyncTask<Void, Void, Void>() {
-
-    override fun doInBackground(vararg params: Void?): Void? {
-        try {
-            Class.forName("org.mariadb.jdbc.Driver").newInstance()
-            val conn = DriverManager.getConnection(
-                "jdbc:mariadb:///www.lahoucine-hamsek.site?serverTimezone=UTC",
-                "root",
-                "(Lahoucine16)"
-            )
-            Log.i("GG", "Co")
-        } catch (ex: SQLException) {
-            // handle any errors
-            Log.i("Erreur", "Pas co")
-            ex.printStackTrace()
-        } catch (ex: Exception) {
-            // handle any errors
-            Log.i("Erreur", "Pas co")
-            ex.printStackTrace()
-        }
-
-
-        return null
-    }
-    }
 

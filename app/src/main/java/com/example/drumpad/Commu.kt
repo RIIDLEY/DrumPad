@@ -2,17 +2,12 @@ package com.example.drumpad
 
 
 import android.content.SharedPreferences
-import android.graphics.Insets.add
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.core.view.OneShotPreDrawListener.add
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -24,16 +19,16 @@ class Commu : AppCompatActivity() {
 
     val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
     lateinit var sharedPreferences: SharedPreferences
+    var volleyRequestQueue: RequestQueue? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_commu)
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        toServerLogin("NbMusique")
-        val fragement = FirstFragement()
-        val fragement2 = SecondFragement()
-        val fragement3 = ThirdFragment()
+        toServerLogin("NbMusique")//Avoir le nombre de musique deja upload par l'utilisateur
+        val fragement = Frag_Server_Musique()
+        val fragement2 = Frag_Profil()
 
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment, fragement)
@@ -49,8 +44,6 @@ class Commu : AppCompatActivity() {
             supportFragmentManager.beginTransaction().apply {
                     replace(R.id.fragment, fragement2)
                     commit()}
-
-
         }
     }
 

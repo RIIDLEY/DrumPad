@@ -13,23 +13,23 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_inscription.*
 import java.util.HashMap
 
-var volleyRequestQueue: RequestQueue? = null
-val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
-var message: String = ""
 
-class Register : AppCompatActivity() {
+class Inscription : AppCompatActivity() {
 
     lateinit var progressDialog: ProgressDialog
+    var volleyRequestQueue: RequestQueue? = null
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+    var reponseServer: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        setContentView(R.layout.activity_inscription)
 
         retour.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Accueil::class.java)
             startActivity(intent)
         }
     }
@@ -46,18 +46,18 @@ class Register : AppCompatActivity() {
         val pseudoNull = pseudo.text.toString() != ""
         val mailNull = mail.text.toString() != ""
 
-     if (isEmailValid() && isMdpValid() && mdpNull && pseudoNull && mailNull){
-         if(mdp.text.toString()==mdpSec.text.toString()){
-             toServer(pseudo.text.toString(),mdp.text.toString(),mail.text.toString())
-             val handler = Handler()
-             progressDialog = ProgressDialog(this)
-             progressDialog.setTitle("Connection")
-             progressDialog.setMessage("En cours de connection")
-             progressDialog.show()
-             handler.postDelayed({ changeView() }, 2000)
-         }
-         Toast.makeText(this, "MDP et confirmation MDP ne sont pas identique ", Toast.LENGTH_SHORT).show()
-     }
+        if (isEmailValid() && isMdpValid() && mdpNull && pseudoNull && mailNull){
+            if(mdp.text.toString()==mdpSec.text.toString()){
+                toServer(pseudo.text.toString(),mdp.text.toString(),mail.text.toString())
+                val handler = Handler()
+                progressDialog = ProgressDialog(this)
+                progressDialog.setTitle("Connection")
+                progressDialog.setMessage("En cours de connection")
+                progressDialog.show()
+                handler.postDelayed({ changeView() }, 2000)
+            }
+            Toast.makeText(this, "MDP et confirmation MDP ne sont pas identique ", Toast.LENGTH_SHORT).show()
+        }
 
 
     }
@@ -83,7 +83,7 @@ class Register : AppCompatActivity() {
             Response.Listener { response ->
                 Log.i("toServeur", "Send")
                 Toast.makeText(this, "Reponse $response", Toast.LENGTH_SHORT).show()
-                message = response
+                reponseServer = response
             },
             Response.ErrorListener { volleyError -> // error occurred
                 Log.i("toServeur", "Error")}) {
@@ -105,10 +105,10 @@ class Register : AppCompatActivity() {
 
     fun changeView(){
         Log.i("ChanegView","Je suis la")
-        if (message == "OK"){
+        if (reponseServer == "OK"){
             progressDialog.dismiss()
             Toast.makeText(this, "Compte crée", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, Login::class.java)
+            val intent = Intent(this, Enregistrement::class.java)
             startActivity(intent)
         }else{
             progressDialog.dismiss()
