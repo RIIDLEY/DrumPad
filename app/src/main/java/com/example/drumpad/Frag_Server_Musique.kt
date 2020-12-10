@@ -15,9 +15,6 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.activity_mes_creations.*
-import kotlinx.android.synthetic.main.activity_mes_creations.view.*
-import kotlinx.android.synthetic.main.alert_dialog_note.*
 import kotlinx.android.synthetic.main.alert_dialog_note.view.*
 import kotlinx.android.synthetic.main.fragment_frag_server_musique.*
 import kotlinx.android.synthetic.main.fragment_frag_server_musique.view.*
@@ -30,7 +27,7 @@ class Frag_Server_Musique : Fragment() {
     var volleyRequestQueue: RequestQueue? = null
     val serverAPIURL: String = "http://lahoucine-hamsek.site/test.php"
     var serverFolder = "http://lahoucine-hamsek.site/uploads/"
-    var firtmusique: String = "http://lahoucine-hamsek.site/uploads/titre2.mp3"
+    var firtmusique: String = "http://lahoucine-hamsek.site/uploads/daft.mp3"
     var URLfile = ""
     var file = ""
     var titre: String = ""
@@ -78,27 +75,9 @@ class Frag_Server_Musique : Fragment() {
 
        toServerLogin(nbmusique,"musique","","")
 
-        GlobalScope.launch {
-            delay(1500)
-            URLfile = serverFolder + file
-            Log.i("toserveur1",URLfile)
-            Log.i("rep",file)
-            threadfini = true
-        }
-
-        controlSound(firtmusique,"titre2.mp3")
-        while (true && sortdelaboucle==false){
-            if (threadfini == true){
-                Log.i("CONTROLSOUND","J4AI TOURNE")
-                controlSound(URLfile,file)
-                sortdelaboucle = true
-            }
-        }
-
-
         view.skip_Co.setOnClickListener {
             Log.i("SKIP","skip")
-            view.SeekBarFrag.progress = 0
+            SeekBarFrag.progress = 0
             nouvellemusique=true
             if (mp!==null){
                 mp?.stop()
@@ -119,7 +98,7 @@ class Frag_Server_Musique : Fragment() {
 
         view.back_Co.setOnClickListener {
             Log.i("BACK","back")
-            view.SeekBarFrag.progress = 0
+            SeekBarFrag.progress = 0
             nouvellemusique=true
             if (mp!==null){
                 mp?.stop()
@@ -143,6 +122,7 @@ class Frag_Server_Musique : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        controlSound(firtmusique,"daft.mp3")
     }
 
 
@@ -160,6 +140,7 @@ class Frag_Server_Musique : Fragment() {
         }
 
         view?.start_Co?.setOnClickListener {
+            nouvellemusique=false
             Log.i("START","start")
             if (mp == null) {
                 mp = MediaPlayer()

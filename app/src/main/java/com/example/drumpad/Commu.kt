@@ -1,6 +1,5 @@
 package com.example.drumpad
 
-
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity

@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.media.MediaPlayer
 import android.media.MediaRecorder
-import android.media.SoundPool
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
