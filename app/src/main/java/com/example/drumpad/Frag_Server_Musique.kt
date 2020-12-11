@@ -32,8 +32,6 @@ class Frag_Server_Musique : Fragment() {
     var file = ""
     var titre: String = ""
     var nbMax: Int = 0
-    var sortdelaboucle: Boolean = false
-    var threadfini: Boolean = false
     var mp: MediaPlayer? = null
     var nbmusique: Int = 0
     var seekbarcoroutine: Job? = null
