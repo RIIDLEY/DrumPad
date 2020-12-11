@@ -140,7 +140,7 @@ class MesCreations : AppCompatActivity() {
             titre+=File[i]
         }
         if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {
-            toServerLogin(titre+".mp3",sharedPreferences.getString("Login", "")!!,"isInDB")
+            toServerLogin(titre+".mp3",sharedPreferences.getString("Login", "")!!,"isInDBMusique")
         }
         titreMusique.text = titre.replace("-"," ",true)
         titreActuel = titre
@@ -267,10 +267,10 @@ class MesCreations : AppCompatActivity() {
             Method.POST, serverAPIURL,
             Response.Listener { response ->
                 Log.i("toServeur", "Send")
-                if(fonction=="isInDB"){
+                if(fonction=="isInDBMusique"){
                     Log.i("DEBUG","JE SUIS LA")
                     isInDB = response.toBoolean()
-                    Log.i("isInDB", response)
+                    Log.i("isInDBMusique", response)
                 }else{
                     rep = response
                 }
