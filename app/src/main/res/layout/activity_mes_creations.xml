@@ -116,6 +116,13 @@
                 android:layout_height="wrap_content"
                 android:text="Supprimer" />
 
+            <Button
+                android:id="@+id/rename"
+                android:background="@drawable/log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rename" />
+
         </LinearLayout>
 
     </LinearLayout>

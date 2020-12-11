@@ -6,6 +6,9 @@ import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +45,7 @@ class MesCreations : AppCompatActivity() {
     var rep: String = ""
     var isInDB: Boolean = false
     lateinit var sharedPreferences: SharedPreferences
+    var namefile: String = ""
 
     override fun onStop() {
         super.onStop()
@@ -199,17 +203,46 @@ class MesCreations : AppCompatActivity() {
                         mp?.release()
                         mp = null
                     }
-                    if (idOnPlay==sizeListe-1){
-                        idOnPlay=0
-                    }else{
-                        idOnPlay+=1
-                    }
+                    getFichier()
+                    idOnPlay=0
                     SeekBar.progress = 0
                     if(!ListeFichier.isEmpty()) {
                         controlSound(ListeFichier[idOnPlay])
                     }
                 }
 
+        }
+
+        rename.setOnClickListener {
+            val monfichier: File = File(File)
+            val viewDialog: View = LayoutInflater.from(this).inflate(R.layout.alert_dialog_rename,null)
+            val text: EditText = viewDialog.findViewById<EditText>(R.id.titre)
+
+            val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
+                .setPositiveButton("Renommer"){dialog, which ->
+                    Log.i("Nom fichier",text.text.toString())
+                    Log.i("contains",ListeFichier.contains(text.text.toString()+".mp3").toString())
+                    namefile = text.text.toString().replace(" ", "-",true)
+                    if(!ListeFichier.contains(namefile+".mp3")){
+                        var nouveauFichier: File = File("/storage/emulated/0/DrumPadRec/"+namefile+".mp3")
+                        if(monfichier.renameTo(nouveauFichier)){
+                            Log.i("RENAME","OUI")
+                        }else{
+                            Log.i("RENAME","NON")
+                        }
+                        getFichier()
+                        idOnPlay=0
+                        SeekBar.progress = 0
+                        if(!ListeFichier.isEmpty()) {
+                            controlSound(ListeFichier[idOnPlay])
+                        }
+                    }else{
+                        Toast.makeText(this, "Ce nom est déjà utilisé", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setTitle("Merci d'entrer un nouveau titre")
+                .setView(viewDialog)
+            dialog.show()
         }
 
         SeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
