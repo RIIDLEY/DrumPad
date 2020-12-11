@@ -22,6 +22,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+import java.nio.file.Files
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -73,6 +74,7 @@ class MesCreations : AppCompatActivity() {
             val intent = Intent(this, Accueil::class.java)
             startActivity(intent)
         }
+
         getFichier()
 
         if(!ListeFichier.isEmpty()){
@@ -123,6 +125,7 @@ class MesCreations : AppCompatActivity() {
     }
 
     private fun getFichier(){
+        ListeFichier.clear()
         File("/storage/emulated/0/DrumPadRec").list().forEach {
             ListeFichier.add("/storage/emulated/0/DrumPadRec/" + it)
         }
@@ -171,6 +174,33 @@ class MesCreations : AppCompatActivity() {
                     .setNegativeButton("Ok",null)
                 dialog.show()
             }
+        }
+
+        remove.setOnClickListener {
+            val monfichier: File = File(File)
+                if(monfichier.delete()){
+                    Toast.makeText(this, "Musique supprimé", Toast.LENGTH_SHORT).show()
+                    getFichier()
+                    SeekBar.progress = 0
+                    nouvellemusique=true
+                    if (mp!==null){
+                        SeekBar.progress = 0
+                        mp?.stop()
+                        mp?.reset()
+                        mp?.release()
+                        mp = null
+                    }
+                    if (idOnPlay==sizeListe-1){
+                        idOnPlay=0
+                    }else{
+                        idOnPlay+=1
+                    }
+                    SeekBar.progress = 0
+                    if(!ListeFichier.isEmpty()) {
+                        controlSound(ListeFichier[idOnPlay])
+                    }
+                }
+
         }
 
         SeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
