@@ -27,6 +27,11 @@ class Commu : AppCompatActivity() {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         toServerLogin("NbMusique")//Avoir le nombre de musique deja upload par l'utilisateur
+        toServerLogin("1etoile")
+        toServerLogin("2etoile")
+        toServerLogin("3etoile")
+        toServerLogin("4etoile")
+        toServerLogin("5etoile")
         val fragement = Frag_Server_Musique()
         val fragement2 = Frag_Profil()
 
@@ -47,6 +52,23 @@ class Commu : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        /*
+        toServerLogin("NbMusique")
+        toServerLogin("1etoile")
+        toServerLogin("2etoile")
+        toServerLogin("3etoile")
+        toServerLogin("4etoile")
+        toServerLogin("5etoile")
+        Log.i("1etoile",sharedPreferences.getString("1etoile","")!! )
+        Log.i("2etoile",sharedPreferences.getString("2etoile","")!! )
+        Log.i("3etoile",sharedPreferences.getString("3etoile","")!! )
+        Log.i("4etoile",sharedPreferences.getString("4etoile","")!! )
+        Log.i("5etoile",sharedPreferences.getString("5etoile","")!! )
+         */
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         val intent = Intent(this, Accueil::class.java)
@@ -62,11 +84,32 @@ class Commu : AppCompatActivity() {
             Method.POST,serverAPIURL,
             Response.Listener { response ->
                 Log.i("toServeur", "Send")
-                //Toast.makeText(requireContext(), "Reponse $response", Toast.LENGTH_SHORT).show()
-                Log.i("NBmusique",response )
-                Log.i("NBmusique",sharedPreferences.getString("Login","")!! )
+                Log.i("Reponse serveur",response )
                 val editor = sharedPreferences.edit()
-                editor.putString("NbMusique", response)
+                if(fonction=="NbMusique"){
+                    editor.putString("NbMusique", response)
+                    Log.i("NbMusique",response )
+                }
+                if(fonction=="1etoile"){
+                    editor.putString("1etoile", response)
+                    Log.i("1etoile",response )
+                }
+                if(fonction=="2etoile"){
+                    editor.putString("2etoile", response)
+                    Log.i("2etoile",response )
+                }
+                if(fonction=="3etoile"){
+                    editor.putString("3etoile", response)
+                    Log.i("3etoile",response )
+                }
+                if(fonction=="4etoile"){
+                    editor.putString("4etoile", response)
+                    Log.i("4etoile",response )
+                }
+                if(fonction=="5etoile"){
+                    editor.putString("5etoile", response)
+                    Log.i("5etoile",response )
+                }
                 editor.apply()
             },
             Response.ErrorListener { volleyError -> // error occurred

@@ -23,11 +23,14 @@ class Frag_Profil : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val view: View = inflater!!.inflate(R.layout.fragment_frag_profil, container, false)
-        // return inflater.inflate(R.layout.fragment_second_fragement, container, false)
         val l: String = sharedPreferences.getString("Login","")!!
         view.pseudo.text = l
         view.textView.text = "Nombre de musique en ligne : " + sharedPreferences.getString("NbMusique","")!!
-        view.textView2.text = "Nombre d'étoile collectée : " + 0
+        view.etoile1.text = "1 etoile : " + sharedPreferences.getString("1etoile","")!!
+        view.etoile2.text = "2 etoile : " + sharedPreferences.getString("2etoile","")!!
+        view.etoile3.text = "3 etoile : " + sharedPreferences.getString("3etoile","")!!
+        view.etoile4.text = "4 etoile : " + sharedPreferences.getString("4etoile","")!!
+        view.etoile5.text = "5 etoile : " + sharedPreferences.getString("5etoile","")!!
         return view
     }
 

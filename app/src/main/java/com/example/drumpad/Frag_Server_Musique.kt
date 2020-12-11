@@ -174,6 +174,7 @@ class Frag_Server_Musique : Fragment() {
             view?.note?.setOnClickListener {
             val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.alert_dialog_note,null)
             val dialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                .setTitle("Donne une note !")
                 .setPositiveButton("Voter"){dialog, which ->
                     val selectedOption: Int = view?.radioGroup1.checkedRadioButtonId
                     radioButton = view?.findViewById(selectedOption)
