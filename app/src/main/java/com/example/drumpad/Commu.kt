@@ -17,7 +17,7 @@ import java.util.HashMap
 
 class Commu : AppCompatActivity() {
 
-    val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/Drumpad.php"
     lateinit var sharedPreferences: SharedPreferences
     var volleyRequestQueue: RequestQueue? = null
 

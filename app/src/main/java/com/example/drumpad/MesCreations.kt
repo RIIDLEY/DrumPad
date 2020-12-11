@@ -35,7 +35,7 @@ class MesCreations : AppCompatActivity() {
     var idOnPlay: Int = 0
     var titre: String = ""
     var titreActuel: String = ""
-    val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/Drumpad.php"
     var nouvellemusique: Boolean = false
     var volleyRequestQueue: RequestQueue? = null
     var rep: String = ""

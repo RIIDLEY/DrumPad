@@ -21,7 +21,7 @@ class Inscription : AppCompatActivity() {
 
     lateinit var progressDialog: ProgressDialog
     var volleyRequestQueue: RequestQueue? = null
-    val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/Drumpad.php"
     var reponseServer: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {

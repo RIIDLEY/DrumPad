@@ -25,7 +25,7 @@ import java.util.HashMap
 class Frag_Server_Musique : Fragment() {
 
     var volleyRequestQueue: RequestQueue? = null
-    val serverAPIURL: String = "http://lahoucine-hamsek.site/test.php"
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/DrumpadFrag.php"
     var serverFolder = "http://lahoucine-hamsek.site/uploads/"
     var firtmusique: String = "http://lahoucine-hamsek.site/uploads/Lucky.mp3"
     var URLfile = ""

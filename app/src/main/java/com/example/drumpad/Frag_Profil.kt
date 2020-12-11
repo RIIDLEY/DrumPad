@@ -22,7 +22,7 @@ class Frag_Profil : Fragment() {
 
     lateinit var sharedPreferences: SharedPreferences
     var volleyRequestQueue: RequestQueue? = null
-    val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/Drumpad.php"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

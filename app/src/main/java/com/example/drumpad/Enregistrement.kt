@@ -25,7 +25,7 @@ class Enregistrement : AppCompatActivity() {
     var reponseServer: String = ""
     var key1: String = "Login"
     var key2: String = "Pass"
-    val serverAPIURL: String = "http://lahoucine-hamsek.site/coucou.php"
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/Drumpad.php"
     var volleyRequestQueue: RequestQueue? = null
     lateinit var progressDialog: ProgressDialog
     lateinit var sharedPreferences: SharedPreferences
