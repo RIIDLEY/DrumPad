@@ -45,10 +45,10 @@ class UploadUtility(activity: Activity) {
 
                 if (response.isSuccessful) {
                     Log.d("File upload","success, path: $serverUploadDirectoryPath$fileName")
-                    showToast("File uploaded successfully at $serverUploadDirectoryPath$fileName")
+                    showToast("Le fichier a été envoyé avec succes")
                 } else {
                     Log.e("File upload", "failed")
-                    showToast("File uploading failed")
+                    showToast("Le fichier n'a pas peu etre envoyé")
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
