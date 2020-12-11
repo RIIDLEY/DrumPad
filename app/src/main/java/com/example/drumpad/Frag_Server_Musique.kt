@@ -115,7 +115,10 @@ class Frag_Server_Musique : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        controlSound(firtmusique,"Lucky.mp3")
+        if(nbmusique>=1){
+            toServerLogin(nbmusique,"musique","","")
+        }
+        //controlSound(firtmusique,"Lucky.mp3")
     }
 
 
