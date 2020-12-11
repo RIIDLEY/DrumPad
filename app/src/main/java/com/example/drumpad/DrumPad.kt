@@ -29,15 +29,19 @@ class DrumPad : AppCompatActivity() {
     var mediaPlayer7: MediaPlayer? = null
     var mediaPlayer8: MediaPlayer? = null
     var mediaPlayer9: MediaPlayer? = null
-
     var fichiermp3: String? = null
     var mediaRecorder: MediaRecorder? = null
     var recEnCours: Boolean = false
+    val ListeFichier: ArrayList<String> = ArrayList<String>()
+    var sizeListe: Int = 0
+    var namefile: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val wallpaperDirectory = File("/storage/emulated/0/DrumPadRec/")
         wallpaperDirectory.mkdirs()
+
+
         mediaPlayer1 = MediaPlayer.create(this, R.raw.clapanalog)
         mediaPlayer2 = MediaPlayer.create(this, R.raw.kickelectro01)
         mediaPlayer3 = MediaPlayer.create(this, R.raw.hihat808)
@@ -64,26 +68,36 @@ class DrumPad : AppCompatActivity() {
         }
 
         recbtn.setOnClickListener {
+                getFichier()
+            for (element in ListeFichier) {
+                Log.i("Array",element)
+            }
                 val viewDialog: View = LayoutInflater.from(this).inflate(R.layout.alert_dialog_rec,null)
                 val text: EditText = viewDialog.findViewById<EditText>(R.id.titre)
                 val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
                     .setPositiveButton("Commencer à enregistre"){dialog, which ->
-                        Log.i("test",text.text.toString())
-                        prepareRecording(text.text.toString())
-                        startRecording()
+                        Log.i("Nom fichier",text.text.toString())
+                        Log.i("contains",ListeFichier.contains(text.text.toString()+".mp3").toString())
+                        namefile = text.text.toString().replace(" ", "-",true)
+                        if(!ListeFichier.contains(namefile+".mp3")){
+                            prepareRecording(namefile)
+                            startRecording()
+                            recEnCours = true
+                        }else{
+                            Toast.makeText(this, "Ce nom est déjà utilisé", Toast.LENGTH_SHORT).show()
+                        }
                     }
                     .setTitle("Merci d'entrer un nom pour\n l'enregistrement")
                     .setView(viewDialog)
+                if(recEnCours==false){
+                    dialog.show()
+                    Log.i("recbtn","oui")
+                }
                 if (recEnCours){
                     Log.i("recbtn","non")
                     stopRecording()
                     recEnCours = false
-                }else{
-                    dialog.show()
-                    Log.i("recbtn","oui")
-                    recEnCours = true
                 }
-
         }
 
     }
@@ -160,6 +174,14 @@ class DrumPad : AppCompatActivity() {
             mediaRecorder?.stop()
             mediaRecorder?.release()
             Toast.makeText(this, "C'est dans la boite", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getFichier(){
+        ListeFichier.clear()
+        File("/storage/emulated/0/DrumPadRec").list().forEach {
+            ListeFichier.add(it)
+        }
+        sizeListe = ListeFichier.size
     }
 
 }

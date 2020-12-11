@@ -130,7 +130,7 @@ class Frag_Server_Musique : Fragment() {
             for (i in 0..namefile.length - 5) {
                 titre += namefile[i]
             }
-            view?.titre?.text = titre
+            view?.titre?.text = titre.replace("-"," ",true)
             view?.FragArtiste?.text = "Artiste : " + artiste
             Log.i("titre",titre)
             Log.i("filename",namefile)

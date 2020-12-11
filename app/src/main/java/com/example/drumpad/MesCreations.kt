@@ -74,9 +74,11 @@ class MesCreations : AppCompatActivity() {
             startActivity(intent)
         }
         getFichier()
-        Log.i("Fichier", ListeFichier[0])
-        controlSound(ListeFichier[0])
 
+        if(!ListeFichier.isEmpty()){
+            Log.i("Fichier", ListeFichier[0])
+            controlSound(ListeFichier[0])
+        }
         skip.setOnClickListener {
             SeekBar.progress = 0
             nouvellemusique=true
@@ -93,7 +95,9 @@ class MesCreations : AppCompatActivity() {
                 idOnPlay+=1
             }
             SeekBar.progress = 0
-            controlSound(ListeFichier[idOnPlay])
+            if(!ListeFichier.isEmpty()) {
+                controlSound(ListeFichier[idOnPlay])
+            }
         }
 
         back.setOnClickListener {
@@ -111,7 +115,9 @@ class MesCreations : AppCompatActivity() {
                 idOnPlay-=1
             }
             SeekBar.progress = 0
-            controlSound(ListeFichier[idOnPlay])
+            if(!ListeFichier.isEmpty()) {
+                controlSound(ListeFichier[idOnPlay])
+            }
         }
 
     }
@@ -129,8 +135,8 @@ class MesCreations : AppCompatActivity() {
         for(i in 31..File.length-5){
             titre+=File[i]
         }
-        titreMusique.text = titre
-        titreActuel = titre;
+        titreMusique.text = titre.replace("-"," ",true)
+        titreActuel = titre
         titre = ""
 
         start.setOnClickListener {
@@ -155,6 +161,7 @@ class MesCreations : AppCompatActivity() {
 
         upload.setOnClickListener {
             if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {
+                Log.i("UploadFileName",File)
                 UploadUtility(this).uploadFile(File)
                 toServerLogin("$titreActuel.mp3", sharedPreferences.getString("Login", "")!!)
             }else{
@@ -221,7 +228,7 @@ class MesCreations : AppCompatActivity() {
             Method.POST, serverAPIURL,
             Response.Listener { response ->
                 Log.i("toServeur", "Send")
-                Toast.makeText(this, "Reponse $response", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Reponse $response", Toast.LENGTH_SHORT).show()
                 rep = response
             },
             Response.ErrorListener { volleyError -> // error occurred
