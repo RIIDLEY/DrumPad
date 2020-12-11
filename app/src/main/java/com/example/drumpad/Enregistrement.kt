@@ -1,11 +1,13 @@
 package com.example.drumpad
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.inflate
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
@@ -51,10 +53,6 @@ class Enregistrement : AppCompatActivity() {
             progressDialog.setTitle("Connection")
             progressDialog.setMessage("En cours de connection")
             progressDialog.show()
-            GlobalScope.launch {
-                delay(1000)
-                changeView()
-            }
 
         }
 
@@ -95,6 +93,7 @@ class Enregistrement : AppCompatActivity() {
                 Log.i("toServeur", "Send")
                 //Toast.makeText(this, "Reponse $response", Toast.LENGTH_SHORT).show()
                 reponseServer = response
+                changeView()
             },
             Response.ErrorListener { volleyError -> // error occurred
                 Log.i("toServeur", "Error")}) {
@@ -118,18 +117,16 @@ class Enregistrement : AppCompatActivity() {
         Log.i("ChanegView","Je suis la")
         if (reponseServer == "OK"){
             progressDialog.dismiss()
-
             val editor = sharedPreferences.edit()
             editor.putString(key1, login)
             editor.putString(key2, password)
             editor.apply()
-
             //Toast.makeText(this, "Connecté", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, Commu::class.java)
             startActivity(intent)
         }else{
             progressDialog.dismiss()
-            Toast.makeText(this, "Pseudo ou mot de passe incorrect", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Mot de passe ou pseudo incorrect", Toast.LENGTH_SHORT).show()
         }
     }
 

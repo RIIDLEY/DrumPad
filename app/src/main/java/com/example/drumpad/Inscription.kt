@@ -1,6 +1,7 @@
 package com.example.drumpad
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -31,6 +32,9 @@ class Inscription : AppCompatActivity() {
     var pseudoNull: Boolean = false
     var mailNull: Boolean = false
 
+    var pseudoStock: String = ""
+    var mdpStock: String = ""
+    var mailStock: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inscription)
@@ -51,11 +55,14 @@ class Inscription : AppCompatActivity() {
         Log.i("isEmailValid", isEmailValid().toString())
         Log.i("isMdpValid", isMdpValid().toString())
 
+        pseudoStock = pseudo.text.toString()
+        mdpStock = mdp.text.toString()
+        mailStock = mail.text.toString()
+
         mdpNull = mdp.text.toString() != ""
         pseudoNull = pseudo.text.toString() != ""
         mailNull = mail.text.toString() != ""
         toServer(pseudo.text.toString(),"","","isInDBClient")
-
 
     }
 
@@ -63,21 +70,17 @@ class Inscription : AppCompatActivity() {
         if (isPseudoValid) {
             if (isEmailValid() && isMdpValid() && mdpNull && pseudoNull && mailNull) {
                 if (mdp.text.toString() == mdpSec.text.toString()) {
-                    toServer(
-                        pseudo.text.toString(),
-                        mdp.text.toString(),
-                        mail.text.toString(),
-                        "singup"
-                    )
                     progressDialog = ProgressDialog(this)
                     progressDialog.setTitle("Connection")
                     progressDialog.setMessage("En cours de connection")
                     progressDialog.show()
-                    GlobalScope.launch {
-                        delay(2000)
-                        changeView()
-                    }
-                } else {
+                    toServer(
+                        pseudoStock,
+                        mdpStock,
+                        mailStock,
+                        "singup"
+                    )
+                }else {
                     Toast.makeText(
                         this,
                         "MDP et confirmation MDP ne sont pas identique",
@@ -118,8 +121,9 @@ class Inscription : AppCompatActivity() {
                     isPseudoValid = response.toBoolean()
                     verif()
                 }else{
-                   // Toast.makeText(this, "Reponse $response", Toast.LENGTH_SHORT).show()
+                   Log.i("Reponse serveur",response)
                     reponseServer = response
+                    changeView()
                 }
             },
             Response.ErrorListener { volleyError -> // error occurred
