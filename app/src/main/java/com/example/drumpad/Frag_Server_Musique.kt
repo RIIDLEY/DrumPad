@@ -90,8 +90,6 @@ class Frag_Server_Musique : Fragment() {
                 nbmusique+=1
             }
             toServerLogin(nbmusique,"musique","","")
-            URLfile = serverFolder + file
-            controlSound(URLfile,file)
             Log.i("nbMusique",nbmusique.toString())
         }
 
@@ -111,8 +109,6 @@ class Frag_Server_Musique : Fragment() {
                 nbmusique-=1
             }
             toServerLogin(nbmusique,"musique","","")
-            URLfile = serverFolder + file
-            controlSound(URLfile,file)
         }
         return view
     }
@@ -237,8 +233,10 @@ class Frag_Server_Musique : Fragment() {
                     Log.i("Debug","JE SUIS LA")
                     Log.i("Artiste",response)
                     artiste = response
+                    URLfile = serverFolder + file
+                    controlSound(URLfile,file)
                 }
-                else{
+                if(fonction == "musique"){
                     file = response
                     Log.i("MusiqueServer",file)
                     toServerLogin(0,"artiste","",file)
