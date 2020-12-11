@@ -38,6 +38,7 @@ class Frag_Server_Musique : Fragment() {
     var nbmusique: Int = 0
     var seekbarcoroutine: Job? = null
     var nouvellemusique: Boolean = false
+    var artiste: String = "RIDLEY"
     lateinit var radioButton: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,8 +117,6 @@ class Frag_Server_Musique : Fragment() {
             controlSound(URLfile,file)
         }
         return view
-
-
     }
 
     override fun onStart() {
@@ -134,9 +133,11 @@ class Frag_Server_Musique : Fragment() {
                 titre += namefile[i]
             }
             view?.titre?.text = titre
+            view?.FragArtiste?.text = "Artiste : " + artiste
             Log.i("titre",titre)
             Log.i("filename",namefile)
             titre = ""
+            artiste = ""
         }
 
         view?.start_Co?.setOnClickListener {
@@ -156,7 +157,6 @@ class Frag_Server_Musique : Fragment() {
             Log.i("PAUSE","pause")
             mp?.pause()
         }
-
 
         view?.SeekBarFrag?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -231,12 +231,19 @@ class Frag_Server_Musique : Fragment() {
             Method.POST,serverAPIURL,
             Response.Listener { response ->
                 Log.i("toServeur", "Send")
-                Log.i("reponse du serveur",response )
                 if (fonction == "getNbMax"){
+                    Log.i("getNbMax",response)
                     nbMax = response.toInt()
+                }
+                if(fonction == "artiste"){
+                    Log.i("Debug","JE SUIS LA")
+                    Log.i("Artiste",response)
+                    artiste = response
                 }
                 else{
                     file = response
+                    Log.i("MusiqueServer",file)
+                    toServerLogin(0,"artiste","",file)
                 }
             },
             Response.ErrorListener { volleyError -> // error occurred

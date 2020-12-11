@@ -25,7 +25,7 @@ class Commu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_commu)
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+       sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         toServerLogin("NbMusique")//Avoir le nombre de musique deja upload par l'utilisateur
         toServerLogin("1etoile")
         toServerLogin("2etoile")
@@ -54,19 +54,6 @@ class Commu : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        /*
-        toServerLogin("NbMusique")
-        toServerLogin("1etoile")
-        toServerLogin("2etoile")
-        toServerLogin("3etoile")
-        toServerLogin("4etoile")
-        toServerLogin("5etoile")
-        Log.i("1etoile",sharedPreferences.getString("1etoile","")!! )
-        Log.i("2etoile",sharedPreferences.getString("2etoile","")!! )
-        Log.i("3etoile",sharedPreferences.getString("3etoile","")!! )
-        Log.i("4etoile",sharedPreferences.getString("4etoile","")!! )
-        Log.i("5etoile",sharedPreferences.getString("5etoile","")!! )
-         */
     }
 
     override fun onBackPressed() {
