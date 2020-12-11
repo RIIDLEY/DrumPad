@@ -23,5 +23,5 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Merci de mettre le son au maximum.\n (Le son de l'enregistrement est fait \nvia le micro de votre smartphone"/>
+        android:text="Merci de mettre le son au maximum.\n(Le son de l'enregistrement est fait \nvia le micro de votre smartphone)"/>
 </LinearLayout>
