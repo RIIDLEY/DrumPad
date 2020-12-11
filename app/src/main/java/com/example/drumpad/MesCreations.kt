@@ -40,6 +40,7 @@ class MesCreations : AppCompatActivity() {
     var nouvellemusique: Boolean = false
     var volleyRequestQueue: RequestQueue? = null
     var rep: String = ""
+    var isInDB: Boolean = false
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onStop() {
@@ -133,10 +134,13 @@ class MesCreations : AppCompatActivity() {
     }
 
     private fun controlSound(File: String){
-        SeekBar.progress = 0
 
+        SeekBar.progress = 0
         for(i in 31..File.length-5){
             titre+=File[i]
+        }
+        if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {
+            toServerLogin(titre+".mp3",sharedPreferences.getString("Login", "")!!,"isInDB")
         }
         titreMusique.text = titre.replace("-"," ",true)
         titreActuel = titre
@@ -163,17 +167,22 @@ class MesCreations : AppCompatActivity() {
         }
 
         upload.setOnClickListener {
-            if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {
-                Log.i("UploadFileName",File)
-                UploadUtility(this).uploadFile(File)
-                toServerLogin("$titreActuel.mp3", sharedPreferences.getString("Login", "")!!)
+            if(!isInDB){
+                if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {
+                    Log.i("UploadFileName",File)
+                    UploadUtility(this).uploadFile(File)
+                    toServerLogin("$titreActuel.mp3", sharedPreferences.getString("Login", "")!!,"insertMusique")
+                }else{
+                    val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
+                        .setTitle("")
+                        .setMessage("Vous devez avoir un compte pour upload votre musique.\nRendez vous dans l'onglet Communauté")
+                        .setNegativeButton("Ok",null)
+                    dialog.show()
+                }
             }else{
-                val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
-                    .setTitle("")
-                    .setMessage("Vous devez avoir un compte pour upload votre musique.\nRendez vous dans l'onglet Communauté")
-                    .setNegativeButton("Ok",null)
-                dialog.show()
+                Toast.makeText(this, "Un autre artiste a deja mis en ligne \nune musique avec le meme nom", Toast.LENGTH_SHORT).show()
             }
+
         }
 
         remove.setOnClickListener {
@@ -248,18 +257,23 @@ class MesCreations : AppCompatActivity() {
 
         }
 
-    fun toServerLogin(musique: String, createur: String){
+    fun toServerLogin(musique: String, createur: String, fonction: String){
         volleyRequestQueue = Volley.newRequestQueue(this)
         val parameters: MutableMap<String, String> = HashMap()
         parameters.put("musique", musique)
         parameters.put("createur", createur)
-        parameters.put("fonction", "insertMusique")
+        parameters.put("fonction", fonction)
         val strReq: StringRequest = object : StringRequest(
             Method.POST, serverAPIURL,
             Response.Listener { response ->
                 Log.i("toServeur", "Send")
-                //Toast.makeText(this, "Reponse $response", Toast.LENGTH_SHORT).show()
-                rep = response
+                if(fonction=="isInDB"){
+                    Log.i("DEBUG","JE SUIS LA")
+                    isInDB = response.toBoolean()
+                    Log.i("isInDB", response)
+                }else{
+                    rep = response
+                }
             },
             Response.ErrorListener { volleyError -> // error occurred
                 Log.i("toServeur", "Error")
