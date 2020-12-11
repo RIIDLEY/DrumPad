@@ -27,7 +27,7 @@ class Frag_Server_Musique : Fragment() {
     var volleyRequestQueue: RequestQueue? = null
     val serverAPIURL: String = "http://lahoucine-hamsek.site/test.php"
     var serverFolder = "http://lahoucine-hamsek.site/uploads/"
-    var firtmusique: String = "http://lahoucine-hamsek.site/uploads/daft.mp3"
+    var firtmusique: String = "http://lahoucine-hamsek.site/uploads/Lucky.mp3"
     var URLfile = ""
     var file = ""
     var titre: String = ""
@@ -75,7 +75,7 @@ class Frag_Server_Musique : Fragment() {
         Log.i("getNbMax",nbMax.toString())
 
        toServerLogin(nbmusique,"musique","","")
-
+        //controlSound(firtmusique,"daft.mp3")
         view.skip_Co.setOnClickListener {
             Log.i("SKIP","skip")
             SeekBarFrag.progress = 0
@@ -121,7 +121,7 @@ class Frag_Server_Musique : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        controlSound(firtmusique,"daft.mp3")
+        controlSound(firtmusique,"Lucky.mp3")
     }
 
 
