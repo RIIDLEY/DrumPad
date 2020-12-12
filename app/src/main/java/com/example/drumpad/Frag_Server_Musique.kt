@@ -123,6 +123,7 @@ class Frag_Server_Musique : Fragment() {
 
 
     private fun controlSound(File: String, namefile: String) {
+        FragNbMusique.text = (nbmusique+1).toString() + "/" + nbMax.toString()
         view?.SeekBarFrag?.progress=0
         if (File != "oui"){
             Log.i("controlSound","tourne")

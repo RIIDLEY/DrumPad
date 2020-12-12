@@ -86,6 +86,7 @@ class MesCreations : AppCompatActivity() {
             Log.i("Fichier", ListeFichier[0])
             controlSound(ListeFichier[0])
         }
+
         skip.setOnClickListener {
             SeekBar.progress = 0
             nouvellemusique=true
@@ -139,6 +140,7 @@ class MesCreations : AppCompatActivity() {
 
     private fun controlSound(File: String){
 
+        nbmusique.text = (idOnPlay+1).toString() +"/"+sizeListe.toString()
         SeekBar.progress = 0
         for(i in 31..File.length-5){
             titre+=File[i]
