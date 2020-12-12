@@ -38,6 +38,7 @@ class Frag_Server_Musique : Fragment() {
     var nouvellemusique: Boolean = false
     var artiste: String = "RIDLEY"
     lateinit var radioButton: RadioButton
+    var nbEtoileMoyenne: String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,6 +125,7 @@ class Frag_Server_Musique : Fragment() {
 
     private fun controlSound(File: String, namefile: String) {
         FragNbMusique.text = (nbmusique+1).toString() + "/" + nbMax.toString()
+        moyeEtoile.text = "Moyenne d'étoile : "+nbEtoileMoyenne
         view?.SeekBarFrag?.progress=0
         if (File != "oui"){
             Log.i("controlSound","tourne")
@@ -243,6 +245,12 @@ class Frag_Server_Musique : Fragment() {
                 if(fonction == "musique"){
                     file = response
                     Log.i("MusiqueServer",file)
+                    toServerLogin(0,"etoileMoyenne","",file)
+                }
+                if(fonction == "etoileMoyenne"){
+                    nbEtoileMoyenne = response
+                    Log.i("JE SUIS LA","etoileMoyenne")
+                    Log.i("etoileMoyenne",nbEtoileMoyenne)
                     toServerLogin(0,"artiste","",file)
                 }
             },

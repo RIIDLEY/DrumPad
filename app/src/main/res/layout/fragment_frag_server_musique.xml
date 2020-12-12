@@ -29,7 +29,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_deco" />
 
-
+    <TextView
+        android:id="@+id/moyeEtoile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="moyeEtoile"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/FragArtiste"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titre" />
 
     <TextView
         android:id="@+id/FragArtiste"
