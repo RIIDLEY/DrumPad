@@ -46,13 +46,13 @@ class Enregistrement : AppCompatActivity() {
 
         boutonlog.setOnClickListener {
             Log.i("Login","Bouton Oui")
-            login = pseudo.text.toString()
-            password = mdp.text.toString()
-            toServerLogin(pseudo.text.toString(),mdp.text.toString())
+            login = pseudo.text.toString()//get le login
+            password = mdp.text.toString()//get le mdp
+            toServerLogin(pseudo.text.toString(),mdp.text.toString())//envoie tout ça pour faire une requete
             progressDialog = ProgressDialog(this)
             progressDialog.setTitle("Connection")
             progressDialog.setMessage("En cours de connexion")
-            progressDialog.show()
+            progressDialog.show()//lance la progressDialog
 
         }
 
@@ -61,12 +61,12 @@ class Enregistrement : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.i("LogGVar",sharedPreferences.getString("Login","").toString())
-        if (sharedPreferences.getString("Login","")?.isNotEmpty()!!){
-            val l: String = sharedPreferences.getString(key1,"")!!
-            val p: String = sharedPreferences.getString(key2,"")!!
-            toServerLogin(l,p)
+        if (sharedPreferences.getString("Login","")?.isNotEmpty()!!){//Si a deja été log
+            val pseudo: String = sharedPreferences.getString(key1,"")!!
+            val motdepasse: String = sharedPreferences.getString(key2,"")!!
+            toServerLogin(pseudo,motdepasse)
             progressDialog = ProgressDialog(this)
-            progressDialog.setTitle("Connection")
+            progressDialog.setTitle("Connexion")
             progressDialog.setMessage("En cours de connexion")
             progressDialog.show()
             GlobalScope.launch {
@@ -81,7 +81,7 @@ class Enregistrement : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun toServerLogin(pseudo: String, mdp: String){
+    fun toServerLogin(pseudo: String, mdp: String){// requete HTTP en POST
         volleyRequestQueue = Volley.newRequestQueue(this)
         val parameters: MutableMap<String, String> = HashMap()
         parameters.put("pseudo",pseudo)
@@ -113,17 +113,17 @@ class Enregistrement : AppCompatActivity() {
         volleyRequestQueue?.add(strReq)
     }
 
-    fun changeView(){
+    fun changeView(){// change la vue en fonction de la reponse du serveur
         Log.i("ChanegView","Je suis la")
         if (reponseServer == "OK"){
             progressDialog.dismiss()
             val editor = sharedPreferences.edit()
-            editor.putString(key1, login)
+            editor.putString(key1, login)//met dans le sharedPreferences
             editor.putString(key2, password)
             editor.apply()
             //Toast.makeText(this, "Connecté", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, Commu::class.java)
-            startActivity(intent)
+            startActivity(intent)// change d'activity
         }else{
             progressDialog.dismiss()
             Toast.makeText(this, "Mot de passe ou pseudo incorrect", Toast.LENGTH_SHORT).show()

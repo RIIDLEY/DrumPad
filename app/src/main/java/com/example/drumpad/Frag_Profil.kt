@@ -44,7 +44,7 @@ class Frag_Profil : Fragment() {
         view.etoile4.text = "4 etoile : " + sharedPreferences.getString("4etoile","")!!
         view.etoile5.text = "5 etoile : " + sharedPreferences.getString("5etoile","")!!
 
-         view.deco.setOnClickListener {
+         view.deco.setOnClickListener {//vide ce qu'il y a dans le sharedPreferences et met à l'accueil
              Log.i("JE SUIS LA","coucou")
              val editor = sharedPreferences.edit()
              editor.clear()

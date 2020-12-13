@@ -25,18 +25,17 @@ import java.util.HashMap
 class Frag_Server_Musique : Fragment() {
 
     var volleyRequestQueue: RequestQueue? = null
-    val serverAPIURL: String = "http://lahoucine-hamsek.site/DrumpadFrag.php"
-    var serverFolder = "http://lahoucine-hamsek.site/uploads/"
-    var firtmusique: String = "http://lahoucine-hamsek.site/uploads/Lucky.mp3"
-    var URLfile = ""
-    var file = ""
+    val serverAPIURL: String = "http://lahoucine-hamsek.site/DrumpadFrag.php" //fichier à interroger dans le serveur pour avoir les infos dessus
+    var serverFolder = "http://lahoucine-hamsek.site/uploads/" //fichier où sont stocker les musique
+    var URLfile = "" //url exemple : http://lahoucine-hamsek.site/uploads/Jean.mp3
+    var file = "" // fichier exemple : Jean.mp3
     var titre: String = ""
-    var nbMax: Int = 0
+    var nbMax: Int = 0 //Nombre de musique sur le serveur
     var mp: MediaPlayer? = null
-    var nbmusique: Int = 0
+    var nbmusique: Int = 0 //L'ID où on est dans la liste
     var seekbarcoroutine: Job? = null
-    var nouvellemusique: Boolean = false
-    var artiste: String = "RIDLEY"
+    var nouvellemusique: Boolean = false //flag pour savoir si on passe à une nouvelle musique
+    var artiste: String = "" //nom de l'artiste
     lateinit var radioButton: RadioButton
     var nbEtoileMoyenne: String =""
 
@@ -71,7 +70,7 @@ class Frag_Server_Musique : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_frag_server_musique, container, false)
 
         toServerLogin(0,"getNbMax","","")
-        Log.i("getNbMax",nbMax.toString())
+        Log.i("getNbMax",nbMax.toString())// get le nombre de musique dispo sur le serveur
 
        toServerLogin(nbmusique,"musique","","")
         //controlSound(firtmusique,"daft.mp3")
@@ -85,12 +84,12 @@ class Frag_Server_Musique : Fragment() {
                 mp?.release()
                 mp = null
             }
-            if (nbmusique==nbMax-1){
+            if (nbmusique==nbMax-1){//fait bouger le curseur nbmusique en fonction de sa position. S'il est à la fin il passe à 0 pour faire une sorte de boucle
                 nbmusique=0
             }else{
                 nbmusique+=1
             }
-            toServerLogin(nbmusique,"musique","","")
+            toServerLogin(nbmusique,"musique","","")//lance la musique suivante
             Log.i("nbMusique",nbmusique.toString())
         }
 
@@ -104,36 +103,35 @@ class Frag_Server_Musique : Fragment() {
                 mp?.release()
                 mp = null
             }
-            if (nbmusique==0){
+            if (nbmusique==0){//fait bouger le curseur nbmusique en fonction de sa position. S'il est à la fin il passe à 0 pour faire une sorte de boucle
                 nbmusique=nbMax-1
             }else{
                 nbmusique-=1
             }
-            toServerLogin(nbmusique,"musique","","")
+            toServerLogin(nbmusique,"musique","","")//lance la musique d'avant
         }
         return view
     }
 
     override fun onStart() {
         super.onStart()
-        if(nbmusique>=1){
-            toServerLogin(nbmusique,"musique","","")
+        if(nbmusique>=1){//si y a une musique sur le serveur
+            toServerLogin(nbmusique,"musique","","")//lance la musique
         }
-        //controlSound(firtmusique,"Lucky.mp3")
     }
 
 
-    private fun controlSound(File: String, namefile: String) {
+    private fun controlSound(File: String, namefile: String) {// met a jour les boutons en fonction de la musique en cours
         FragNbMusique.text = (nbmusique+1).toString() + "/" + nbMax.toString()
-        moyeEtoile.text = "Moyenne d'étoile : "+nbEtoileMoyenne
-        view?.SeekBarFrag?.progress=0
+        moyeEtoile.text = "Moyenne d'étoile : "+nbEtoileMoyenne// met le nombre d'étoile en moyenne
+        view?.SeekBarFrag?.progress=0//init la seekbar à 0
         if (File != "oui"){
             Log.i("controlSound","tourne")
-            for (i in 0..namefile.length - 5) {
+            for (i in 0..namefile.length - 5) {// passe de "Jean.mp3" à "Jean"
                 titre += namefile[i]
             }
-            view?.titre?.text = titre.replace("-"," ",true)
-            view?.FragArtiste?.text = "Artiste : " + artiste
+            view?.titre?.text = titre.replace("-"," ",true)//set le nom de la musique
+            view?.FragArtiste?.text = "Artiste : " + artiste//set le nom de l'artiste
             Log.i("titre",titre)
             Log.i("filename",namefile)
             titre = ""
@@ -173,14 +171,14 @@ class Frag_Server_Musique : Fragment() {
 
             view?.note?.setOnClickListener {
             val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.alert_dialog_note,null)
-            val dialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+            val dialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())//set l'alertDialog
                 .setTitle("Donne une note !")
                 .setPositiveButton("Voter"){dialog, which ->
                     val selectedOption: Int = view?.radioGroup1.checkedRadioButtonId
                     radioButton = view?.findViewById(selectedOption)
                     Log.i("Envoyé","Oui")
                     Log.i("Envoyé",namefile)
-                    toServerLogin(0,"etoile",radioButton.text.toString(),namefile)
+                    toServerLogin(0,"etoile",radioButton.text.toString(),namefile)//envoie le vote
                 }
                 .setView(view)
             dialog.show()
@@ -190,7 +188,7 @@ class Frag_Server_Musique : Fragment() {
 
     }
 
-    fun initialiseSeekBar(){
+    fun initialiseSeekBar(){//fait progress la barre en fonction de la musique en cours
         view?.SeekBarFrag?.max = mp!!.duration
         var max = mp!!.duration
         var pos = 0
@@ -207,7 +205,7 @@ class Frag_Server_Musique : Fragment() {
                     }
                     delay(130)
                 }
-                if (nouvellemusique==true){
+                if (nouvellemusique==true){// sort de la boucle et arrete le thread si une nouvelle musique est lancé
                     Log.i("BREAK", "BREAK")
                     view?.SeekBarFrag?.progress = 0
                     break
@@ -220,7 +218,7 @@ class Frag_Server_Musique : Fragment() {
 
     }
 
-    fun toServerLogin(id: Int, fonction: String,etoile: String, namefile: String){
+    fun toServerLogin(id: Int, fonction: String,etoile: String, namefile: String){//requete HTTP en POST
         volleyRequestQueue = Volley.newRequestQueue(requireContext())
         val parameters: MutableMap<String, String> = HashMap()
         parameters.put("fonction",fonction)
@@ -236,22 +234,21 @@ class Frag_Server_Musique : Fragment() {
                     nbMax = response.toInt()
                 }
                 if(fonction == "artiste"){
-                    Log.i("Debug","JE SUIS LA")
                     Log.i("Artiste",response)
                     artiste = response
                     URLfile = serverFolder + file
-                    controlSound(URLfile,file)
+                    controlSound(URLfile,file)// lance les modifications des boutons et les textes
                 }
                 if(fonction == "musique"){
                     file = response
                     Log.i("MusiqueServer",file)
-                    toServerLogin(0,"etoileMoyenne","",file)
+                    toServerLogin(0,"etoileMoyenne","",file)//vas cherche le nombre d'étoile en moyenne de la musique
                 }
                 if(fonction == "etoileMoyenne"){
                     nbEtoileMoyenne = response
                     Log.i("JE SUIS LA","etoileMoyenne")
                     Log.i("etoileMoyenne",nbEtoileMoyenne)
-                    toServerLogin(0,"artiste","",file)
+                    toServerLogin(0,"artiste","",file)//vas cherche le nom de l'artiste
                 }
             },
             Response.ErrorListener { volleyError -> // error occurred

@@ -67,8 +67,8 @@ class Inscription : AppCompatActivity() {
     }
 
     fun verif(){
-        if (isPseudoValid) {
-            if (isEmailValid() && isMdpValid() && mdpNull && pseudoNull && mailNull) {
+        if (isPseudoValid) {//verifie si le pseudo est pas deja pris
+            if (isEmailValid() && isMdpValid() && mdpNull && pseudoNull && mailNull) {//verifie si pas vide ou mail ou mdp incorrect
                 if (mdp.text.toString() == mdpSec.text.toString()) {
                     progressDialog = ProgressDialog(this)
                     progressDialog.setTitle("Connection")
@@ -79,7 +79,7 @@ class Inscription : AppCompatActivity() {
                         mdpStock,
                         mailStock,
                         "singup"
-                    )
+                    )//envoie tout au serveur
                 }else {
                     Toast.makeText(
                         this,
@@ -144,7 +144,7 @@ class Inscription : AppCompatActivity() {
         volleyRequestQueue?.add(strReq)
     }
 
-    fun changeView(){
+    fun changeView(){// change la vue en fonction de la reposne du serveur
         Log.i("ChanegView","Je suis la")
         if (reponseServer == "OK"){
             progressDialog.dismiss()

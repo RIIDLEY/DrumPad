@@ -73,18 +73,18 @@ class MesCreations : AppCompatActivity() {
         setContentView(R.layout.activity_mes_creations)
 
         val wallpaperDirectory = File("/storage/emulated/0/DrumPadRec/")
-        wallpaperDirectory.mkdirs()
+        wallpaperDirectory.mkdirs()// cree le repertoire
 
         retour.setOnClickListener {
             val intent = Intent(this, Accueil::class.java)
             startActivity(intent)
         }
 
-        getFichier()
+        getFichier()// get les fichiers present dans le repertoire
 
-        if(!ListeFichier.isEmpty()){
+        if(!ListeFichier.isEmpty()){//si le repertoire est pas vide
             Log.i("Fichier", ListeFichier[0])
-            controlSound(ListeFichier[0])
+            controlSound(ListeFichier[0])//lance la premier musique
         }
 
         skip.setOnClickListener {
@@ -97,7 +97,7 @@ class MesCreations : AppCompatActivity() {
                 mp?.release()
                 mp = null
             }
-            if (idOnPlay==sizeListe-1){
+            if (idOnPlay==sizeListe-1){//fait bouger le curseur idOnPlay en fonction de sa position. S'il est à la fin il passe à 0 pour faire une sorte de boucl
                 idOnPlay=0
             }else{
                 idOnPlay+=1
@@ -130,7 +130,7 @@ class MesCreations : AppCompatActivity() {
 
     }
 
-    private fun getFichier(){
+    private fun getFichier(){// Obtien les fichiers qu'il y a dans le repertoire sous forme de tableau
         ListeFichier.clear()
         File("/storage/emulated/0/DrumPadRec").list().forEach {
             ListeFichier.add("/storage/emulated/0/DrumPadRec/" + it)
@@ -138,14 +138,14 @@ class MesCreations : AppCompatActivity() {
         sizeListe = ListeFichier.size
     }
 
-    private fun controlSound(File: String){
+    private fun controlSound(File: String){// change l'action des boutons en fonction de la musique en cours
 
         nbmusique.text = (idOnPlay+1).toString() +"/"+sizeListe.toString()
         SeekBar.progress = 0
         for(i in 31..File.length-5){
             titre+=File[i]
         }
-        if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {
+        if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {//verifie si la musique est pas deja dans le serveur s'il y a un compte
             toServerLogin(titre+".mp3",sharedPreferences.getString("Login", "")!!,"isInDBMusique")
         }
         titreMusique.text = titre.replace("-"," ",true)
@@ -174,18 +174,18 @@ class MesCreations : AppCompatActivity() {
 
         upload.setOnClickListener {
             if(!isInDB){
-                if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {
+                if (sharedPreferences.getString("Login", "")?.isNotEmpty()!!) {//s'il a un compte
                     Log.i("UploadFileName",File)
-                    UploadUtility(this).uploadFile(File)
+                    UploadUtility(this).uploadFile(File)// la musique est upload
                     toServerLogin("$titreActuel.mp3", sharedPreferences.getString("Login", "")!!,"insertMusique")
-                }else{
+                }else{//sinon
                     val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
                         .setTitle("")
                         .setMessage("Vous devez avoir un compte pour upload votre musique.\nRendez vous dans l'onglet Communauté")
                         .setNegativeButton("Ok",null)
-                    dialog.show()
+                    dialog.show()// alertdialog pour dire qu'il a pas de compte
                 }
-            }else{
+            }else{// si musique avec titre similaire est deja dans la DB
                 Toast.makeText(this, "Un autre artiste a deja mis en ligne \nune musique avec le meme nom", Toast.LENGTH_SHORT).show()
             }
 
@@ -193,12 +193,12 @@ class MesCreations : AppCompatActivity() {
 
         remove.setOnClickListener {
             val monfichier: File = File(File)
-                if(monfichier.delete()){
+                if(monfichier.delete()){//supprime le fichier
                     Toast.makeText(this, "Musique supprimé", Toast.LENGTH_SHORT).show()
-                    getFichier()
+                    getFichier()//get la nouvelle liste
                     SeekBar.progress = 0
                     nouvellemusique=true
-                    if (mp!==null){
+                    if (mp!==null){//arrete la musique en cours
                         SeekBar.progress = 0
                         mp?.stop()
                         mp?.reset()
@@ -208,7 +208,7 @@ class MesCreations : AppCompatActivity() {
                     getFichier()
                     idOnPlay=0
                     SeekBar.progress = 0
-                    if(!ListeFichier.isEmpty()) {
+                    if(!ListeFichier.isEmpty()) {//relance la liste depuis le debut
                         controlSound(ListeFichier[idOnPlay])
                     }
                 }
@@ -216,26 +216,26 @@ class MesCreations : AppCompatActivity() {
         }
 
         rename.setOnClickListener {
-            val monfichier: File = File(File)
+            val monfichier: File = File(File)//fichier dont on veut changer le nom
             val viewDialog: View = LayoutInflater.from(this).inflate(R.layout.alert_dialog_rename,null)
             val text: EditText = viewDialog.findViewById<EditText>(R.id.titre)
 
             val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
-                .setPositiveButton("Renommer"){dialog, which ->
+                .setPositiveButton("Renommer"){dialog, which ->// lorsque le bouton OK est pressé
                     Log.i("Nom fichier",text.text.toString())
                     Log.i("contains",ListeFichier.contains(text.text.toString()+".mp3").toString())
-                    namefile = text.text.toString().replace(" ", "-",true)
-                    if(!ListeFichier.contains(namefile+".mp3")){
+                    namefile = text.text.toString().replace(" ", "-",true)// remplace les " " par "-"
+                    if(!ListeFichier.contains(namefile+".mp3")){// si le nom est pas utilise
                         var nouveauFichier: File = File("/storage/emulated/0/DrumPadRec/"+namefile+".mp3")
-                        if(monfichier.renameTo(nouveauFichier)){
+                        if(monfichier.renameTo(nouveauFichier)){//change le nom
                             Log.i("RENAME","OUI")
                         }else{
                             Log.i("RENAME","NON")
                         }
-                        getFichier()
+                        getFichier()//get la nouvelle liste
                         idOnPlay=0
                         SeekBar.progress = 0
-                        if(!ListeFichier.isEmpty()) {
+                        if(!ListeFichier.isEmpty()) {//lance la liste au debut
                             controlSound(ListeFichier[idOnPlay])
                         }
                     }else{
@@ -262,7 +262,7 @@ class MesCreations : AppCompatActivity() {
 
         }
 
-    fun initialiseSeekBar(){
+    fun initialiseSeekBar(){//fait progress la barre en fonction de la musique en cours
         SeekBar.max = mp!!.duration
         var max = mp!!.duration
         var pos = 0
@@ -279,7 +279,7 @@ class MesCreations : AppCompatActivity() {
                    }
                    delay(130)
                }
-               if (nouvellemusique==true){
+               if (nouvellemusique==true){// sort de la boucle et arrete le thread si une nouvelle musique est lancé
                    Log.i("BREAK", "BREAK")
                    SeekBar.progress = 0
                    break
@@ -292,7 +292,7 @@ class MesCreations : AppCompatActivity() {
 
         }
 
-    fun toServerLogin(musique: String, createur: String, fonction: String){
+    fun toServerLogin(musique: String, createur: String, fonction: String){/// requete HTTP en POST
         volleyRequestQueue = Volley.newRequestQueue(this)
         val parameters: MutableMap<String, String> = HashMap()
         parameters.put("musique", musique)

@@ -27,11 +27,12 @@ class Commu : AppCompatActivity() {
 
        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         toServerLogin("NbMusique")//Avoir le nombre de musique deja upload par l'utilisateur
-        toServerLogin("1etoile")
-        toServerLogin("2etoile")
-        toServerLogin("3etoile")
-        toServerLogin("4etoile")
-        toServerLogin("5etoile")
+        toServerLogin("1etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
+        toServerLogin("2etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
+        toServerLogin("3etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
+        toServerLogin("4etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
+        toServerLogin("5etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
+
         val fragement = Frag_Server_Musique()
         val fragement2 = Frag_Profil()
 
@@ -56,13 +57,13 @@ class Commu : AppCompatActivity() {
         super.onStart()
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed() {// bouton retour d'android
         super.onBackPressed()
         val intent = Intent(this, Accueil::class.java)
         startActivity(intent)
     }
 
-    fun toServerLogin(fonction: String){
+    fun toServerLogin(fonction: String){//requete HTTP en POST
         volleyRequestQueue = Volley.newRequestQueue(this)
         val parameters: MutableMap<String, String> = HashMap()
         parameters.put("fonction",fonction)

@@ -51,7 +51,7 @@ class Accueil : AppCompatActivity() {
                 progressDialog.setTitle("Connexion")
                 progressDialog.setMessage("En cours de connexion")
                 progressDialog.show()
-                toServerLogin(sharedPreferences.getString("Login","")!!,sharedPreferences.getString("Pass","")!!)
+                toServerLogin(sharedPreferences.getString("Login","")!!,sharedPreferences.getString("Pass","")!!)//prend les datas dans le sharedPreferences pour se connecter
             }else{//sinon il vas se log
                 val intent = Intent(this, Enregistrement::class.java)
                 startActivity(intent)
@@ -60,7 +60,7 @@ class Accueil : AppCompatActivity() {
 
     }
 
-    fun toServerLogin(pseudo: String, mdp: String){
+    fun toServerLogin(pseudo: String, mdp: String){//requete HTTP en POST
         volleyRequestQueue = Volley.newRequestQueue(this)
         val parameters: MutableMap<String, String> = HashMap()
         parameters.put("pseudo",pseudo)

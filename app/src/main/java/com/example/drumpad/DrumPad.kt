@@ -29,6 +29,7 @@ class DrumPad : AppCompatActivity() {
     var mediaPlayer7: MediaPlayer? = null
     var mediaPlayer8: MediaPlayer? = null
     var mediaPlayer9: MediaPlayer? = null
+
     var fichiermp3: String? = null
     var mediaRecorder: MediaRecorder? = null
     var recEnCours: Boolean = false
@@ -42,7 +43,7 @@ class DrumPad : AppCompatActivity() {
         wallpaperDirectory.mkdirs()
 
 
-        mediaPlayer1 = MediaPlayer.create(this, R.raw.clapanalog)
+        mediaPlayer1 = MediaPlayer.create(this, R.raw.clapanalog)//creation des mediaplayers
         mediaPlayer2 = MediaPlayer.create(this, R.raw.kickelectro01)
         mediaPlayer3 = MediaPlayer.create(this, R.raw.hihat808)
         mediaPlayer4 = MediaPlayer.create(this, R.raw.hihatacoustic01)
@@ -72,30 +73,30 @@ class DrumPad : AppCompatActivity() {
             for (element in ListeFichier) {
                 Log.i("Array",element)
             }
-                val viewDialog: View = LayoutInflater.from(this).inflate(R.layout.alert_dialog_rec,null)
-                val text: EditText = viewDialog.findViewById<EditText>(R.id.titre)
-                val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
+                val viewDialog: View = LayoutInflater.from(this).inflate(R.layout.alert_dialog_rec,null)//get la view du dialog
+                val text: EditText = viewDialog.findViewById<EditText>(R.id.titre)//get l'id de l'edittext
+                val dialog: AlertDialog.Builder = AlertDialog.Builder(this)//creation de l'alert dialog
                     .setPositiveButton("Commencer à enregistre"){dialog, which ->
                         Log.i("Nom fichier",text.text.toString())
                         Log.i("contains",ListeFichier.contains(text.text.toString()+".mp3").toString())
-                        namefile = text.text.toString().replace(" ", "-",true)
-                        if(!ListeFichier.contains(namefile+".mp3")){
-                            prepareRecording(namefile)
-                            startRecording()
-                            recEnCours = true
+                        namefile = text.text.toString().replace(" ", "-",true)//transforme les " " en "-"
+                        if(!ListeFichier.contains(namefile+".mp3")){//si le nom n'est pas deja pris
+                            prepareRecording(namefile)//prepare le rec
+                            startRecording()// lance le rec
+                            recEnCours = true//flag pour savoir si c'est en cours d'enregistrement
                         }else{
-                            Toast.makeText(this, "Ce nom est déjà utilisé", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Ce nom est déjà utilisé", Toast.LENGTH_SHORT).show()//toast erreur
                         }
                     }
                     .setTitle("Merci d'entrer un nom pour\n l'enregistrement")
                     .setView(viewDialog)
-                if(recEnCours==false){
-                    dialog.show()
+                if(recEnCours==false){//si pas en cours de rec
+                    dialog.show()// affiche le dialog
                     Log.i("recbtn","oui")
                 }
-                if (recEnCours){
+                if (recEnCours){//si en cours de rec
                     Log.i("recbtn","non")
-                    stopRecording()
+                    stopRecording()//stop le rec
                     recEnCours = false
                 }
         }
@@ -145,11 +146,11 @@ class DrumPad : AppCompatActivity() {
     fun prepareRecording(nomfichier: String){
         Log.i("prepareRecording","ok")
 
-        mediaRecorder = MediaRecorder()
+        mediaRecorder = MediaRecorder()//creation du mediarecord
 
-        fichiermp3 = Environment.getExternalStorageDirectory().absolutePath + "/DrumPadRec/" + nomfichier + ".mp3"
+        fichiermp3 = Environment.getExternalStorageDirectory().absolutePath + "/DrumPadRec/" + nomfichier + ".mp3"//chemin du fichier mp3
 
-        mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)//set la source micro
         mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
         mediaRecorder?.setAudioEncodingBitRate(128000)
@@ -176,7 +177,7 @@ class DrumPad : AppCompatActivity() {
             Toast.makeText(this, "C'est dans la boite", Toast.LENGTH_SHORT).show()
     }
 
-    private fun getFichier(){
+    private fun getFichier(){// recupere tout les fichiers qu'il y a dans le dossier pour la comparaison
         ListeFichier.clear()
         File("/storage/emulated/0/DrumPadRec").list().forEach {
             ListeFichier.add(it)
