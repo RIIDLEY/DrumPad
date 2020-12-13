@@ -38,11 +38,11 @@ class Frag_Profil : Fragment() {
         val l: String = sharedPreferences.getString("Login","")!!
         view.pseudo.text = l
         view.textView.text = "Nombre de musique en ligne : " + sharedPreferences.getString("NbMusique","")!!
-        view.etoile1.text = "1 etoile : " + sharedPreferences.getString("1etoile","")!!
-        view.etoile2.text = "2 etoile : " + sharedPreferences.getString("2etoile","")!!
-        view.etoile3.text = "3 etoile : " + sharedPreferences.getString("3etoile","")!!
-        view.etoile4.text = "4 etoile : " + sharedPreferences.getString("4etoile","")!!
-        view.etoile5.text = "5 etoile : " + sharedPreferences.getString("5etoile","")!!
+        view.etoile1.text = "1 etoile : " + sharedPreferences.getString("1etoile","0")!!
+        view.etoile2.text = "2 etoile : " + sharedPreferences.getString("2etoile","0")!!
+        view.etoile3.text = "3 etoile : " + sharedPreferences.getString("3etoile","0")!!
+        view.etoile4.text = "4 etoile : " + sharedPreferences.getString("4etoile","0")!!
+        view.etoile5.text = "5 etoile : " + sharedPreferences.getString("5etoile","0")!!
 
          view.deco.setOnClickListener {//vide ce qu'il y a dans le sharedPreferences et met à l'accueil
              Log.i("JE SUIS LA","coucou")

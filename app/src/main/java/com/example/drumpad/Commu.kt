@@ -79,24 +79,44 @@ class Commu : AppCompatActivity() {
                     Log.i("NbMusique",response )
                 }
                 if(fonction=="1etoile"){
-                    editor.putString("1etoile", response)
-                    Log.i("1etoile",response )
+                        if(response==""){
+                            editor.putString("1etoile", "0")
+                        }else{
+                            editor.putString("1etoile", response)
+                            Log.i("1etoile",response )
+                        }
                 }
                 if(fonction=="2etoile"){
-                    editor.putString("2etoile", response)
-                    Log.i("2etoile",response )
+                    if(response==""){
+                        editor.putString("2etoile", "0")
+                    }else{
+                        editor.putString("2etoile", response)
+                        Log.i("2etoile",response )
+                    }
                 }
                 if(fonction=="3etoile"){
-                    editor.putString("3etoile", response)
-                    Log.i("3etoile",response )
+                    if(response==""){
+                        editor.putString("3etoile", "0")
+                    }else{
+                        editor.putString("3etoile", response)
+                        Log.i("3etoile",response )
+                    }
                 }
                 if(fonction=="4etoile"){
-                    editor.putString("4etoile", response)
-                    Log.i("4etoile",response )
+                    if(response==""){
+                        editor.putString("4etoile", "0")
+                    }else{
+                        editor.putString("4etoile", response)
+                        Log.i("4etoile",response )
+                    }
                 }
                 if(fonction=="5etoile"){
-                    editor.putString("5etoile", response)
-                    Log.i("5etoile",response )
+                    if(response==""){
+                        editor.putString("5etoile", "0")
+                    }else{
+                        editor.putString("5etoile", response)
+                        Log.i("5etoile",response )
+                    }
                 }
                 editor.apply()
             },

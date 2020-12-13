@@ -48,12 +48,15 @@ class Enregistrement : AppCompatActivity() {
             Log.i("Login","Bouton Oui")
             login = pseudo.text.toString()//get le login
             password = mdp.text.toString()//get le mdp
-            toServerLogin(pseudo.text.toString(),mdp.text.toString())//envoie tout ça pour faire une requete
-            progressDialog = ProgressDialog(this)
-            progressDialog.setTitle("Connection")
-            progressDialog.setMessage("En cours de connexion")
-            progressDialog.show()//lance la progressDialog
-
+            if(login != "" && password != ""){
+                toServerLogin(pseudo.text.toString(),mdp.text.toString())//envoie tout ça pour faire une requete
+                progressDialog = ProgressDialog(this)
+                progressDialog.setTitle("Connection")
+                progressDialog.setMessage("En cours de connexion")
+                progressDialog.show()//lance la progressDialog
+            }else{
+                Toast.makeText(this, "Champ vide", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }

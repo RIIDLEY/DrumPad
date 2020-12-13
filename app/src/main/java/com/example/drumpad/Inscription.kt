@@ -52,8 +52,6 @@ class Inscription : AppCompatActivity() {
         Log.i("mdp", mdp.text.toString())
         Log.i("mdpsec", mdpSec.text.toString())
         Log.i("mail", mail.text.toString())
-        Log.i("isEmailValid", isEmailValid().toString())
-        Log.i("isMdpValid", isMdpValid().toString())
 
         pseudoStock = pseudo.text.toString()
         mdpStock = mdp.text.toString()
@@ -68,27 +66,29 @@ class Inscription : AppCompatActivity() {
 
     fun verif(){
         if (isPseudoValid) {//verifie si le pseudo est pas deja pris
-            if (isEmailValid() && isMdpValid() && mdpNull && pseudoNull && mailNull) {//verifie si pas vide ou mail ou mdp incorrect
-                if (mdp.text.toString() == mdpSec.text.toString()) {
-                    progressDialog = ProgressDialog(this)
-                    progressDialog.setTitle("Connection")
-                    progressDialog.setMessage("En cours de connexion")
-                    progressDialog.show()
-                    toServer(
-                        pseudoStock,
-                        mdpStock,
-                        mailStock,
-                        "singup"
-                    )//envoie tout au serveur
-                }else {
-                    Toast.makeText(
-                        this,
-                        "MDP et confirmation MDP ne sont pas identique",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            if (mdpNull && pseudoNull && mailNull) {//verifie si pas vide ou mail ou mdp incorrect
+                if(isEmailValid() && isMdpValid()) {
+                    if (mdp.text.toString() == mdpSec.text.toString()) {
+                        progressDialog = ProgressDialog(this)
+                        progressDialog.setTitle("Connection")
+                        progressDialog.setMessage("En cours de connexion")
+                        progressDialog.show()
+                        toServer(
+                            pseudoStock,
+                            mdpStock,
+                            mailStock,
+                            "singup"
+                        )//envoie tout au serveur
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "MDP et confirmation MDP ne sont pas identique",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             } else {
-                Toast.makeText(this, "Champ vide ou mail non valide", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Champ vide", Toast.LENGTH_SHORT).show()
             }
         }else{
             Toast.makeText(this, "Pseudo deja utilisé", Toast.LENGTH_SHORT).show()
@@ -96,10 +96,16 @@ class Inscription : AppCompatActivity() {
     }
 
     fun isEmailValid(): Boolean {
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(mail.text.toString()).matches()){
+            Toast.makeText(this, "Mail non valide", Toast.LENGTH_SHORT).show()
+        }
         return android.util.Patterns.EMAIL_ADDRESS.matcher(mail.text.toString()).matches()
     }
 
     fun isMdpValid(): Boolean {
+        if(mdp.text.toString() != mdpSec.text.toString()){
+            Toast.makeText(this, "Probleme avec avec le mot de passe", Toast.LENGTH_SHORT).show()
+        }
         return mdp.text.toString() == mdpSec.text.toString()
     }
 
