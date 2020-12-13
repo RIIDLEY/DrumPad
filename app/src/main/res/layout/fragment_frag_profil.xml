@@ -95,7 +95,7 @@
         android:background="@drawable/log"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="Déconnection"
+        android:text="Déconnexion"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -31,10 +31,10 @@ class Inscription : AppCompatActivity() {
     var mdpNull: Boolean = false
     var pseudoNull: Boolean = false
     var mailNull: Boolean = false
-
     var pseudoStock: String = ""
     var mdpStock: String = ""
     var mailStock: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inscription)
@@ -72,7 +72,7 @@ class Inscription : AppCompatActivity() {
                 if (mdp.text.toString() == mdpSec.text.toString()) {
                     progressDialog = ProgressDialog(this)
                     progressDialog.setTitle("Connection")
-                    progressDialog.setMessage("En cours de connection")
+                    progressDialog.setMessage("En cours de connexion")
                     progressDialog.show()
                     toServer(
                         pseudoStock,
@@ -88,7 +88,7 @@ class Inscription : AppCompatActivity() {
                     ).show()
                 }
             } else {
-                Toast.makeText(this, "Champ vide", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Champ vide ou mail non valide", Toast.LENGTH_SHORT).show()
             }
         }else{
             Toast.makeText(this, "Pseudo deja utilisé", Toast.LENGTH_SHORT).show()

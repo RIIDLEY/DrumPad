@@ -48,8 +48,8 @@ class Accueil : AppCompatActivity() {
         commu.setOnClickListener {
             if (sharedPreferences.getString("Login","")?.isNotEmpty()!!){//Si a deja ete log
                 progressDialog = ProgressDialog(this)
-                progressDialog.setTitle("Connection")
-                progressDialog.setMessage("En cours de connection")
+                progressDialog.setTitle("Connexion")
+                progressDialog.setMessage("En cours de connexion")
                 progressDialog.show()
                 toServerLogin(sharedPreferences.getString("Login","")!!,sharedPreferences.getString("Pass","")!!)
             }else{//sinon il vas se log
@@ -76,7 +76,7 @@ class Accueil : AppCompatActivity() {
                     val intent = Intent(this, Commu::class.java)
                     startActivity(intent)
                 }else{
-                    Toast.makeText(this, "Probleme de connection", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Probleme de connexion", Toast.LENGTH_SHORT).show()
                 }
             },
             Response.ErrorListener { volleyError -> // error occurred

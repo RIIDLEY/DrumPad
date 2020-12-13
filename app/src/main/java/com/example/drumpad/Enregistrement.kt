@@ -51,7 +51,7 @@ class Enregistrement : AppCompatActivity() {
             toServerLogin(pseudo.text.toString(),mdp.text.toString())
             progressDialog = ProgressDialog(this)
             progressDialog.setTitle("Connection")
-            progressDialog.setMessage("En cours de connection")
+            progressDialog.setMessage("En cours de connexion")
             progressDialog.show()
 
         }
@@ -67,7 +67,7 @@ class Enregistrement : AppCompatActivity() {
             toServerLogin(l,p)
             progressDialog = ProgressDialog(this)
             progressDialog.setTitle("Connection")
-            progressDialog.setMessage("En cours de connection")
+            progressDialog.setMessage("En cours de connexion")
             progressDialog.show()
             GlobalScope.launch {
                 delay(1000)
