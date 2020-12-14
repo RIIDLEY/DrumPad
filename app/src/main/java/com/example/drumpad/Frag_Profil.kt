@@ -35,9 +35,9 @@ class Frag_Profil : Fragment() {
      override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val view: View = inflater!!.inflate(R.layout.fragment_frag_profil, container, false)
-        val l: String = sharedPreferences.getString("Login","")!!
+        val pseudo: String = sharedPreferences.getString("Login","")!!
+         view.pseudo.text = pseudo
          /*
-         view.pseudo.text = l
         view.textView.text = "Nombre de musique en ligne : " + sharedPreferences.getString("NbMusique","")!!
         view.etoile1.text = "1 etoile : " + sharedPreferences.getString("1etoile","0")!!
         view.etoile2.text = "2 etoile : " + sharedPreferences.getString("2etoile","0")!!
@@ -61,7 +61,6 @@ class Frag_Profil : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        toServerLogin("NbMusique")//Avoir le nombre de musique deja upload par l'utilisateur
         toServerLogin("1etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
         toServerLogin("2etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
         toServerLogin("3etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
