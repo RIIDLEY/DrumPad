@@ -37,14 +37,6 @@ class Frag_Profil : Fragment() {
         val view: View = inflater!!.inflate(R.layout.fragment_frag_profil, container, false)
         val pseudo: String = sharedPreferences.getString("Login","")!!
          view.pseudo.text = pseudo
-         /*
-        view.textView.text = "Nombre de musique en ligne : " + sharedPreferences.getString("NbMusique","")!!
-        view.etoile1.text = "1 etoile : " + sharedPreferences.getString("1etoile","0")!!
-        view.etoile2.text = "2 etoile : " + sharedPreferences.getString("2etoile","0")!!
-        view.etoile3.text = "3 etoile : " + sharedPreferences.getString("3etoile","0")!!
-        view.etoile4.text = "4 etoile : " + sharedPreferences.getString("4etoile","0")!!
-        view.etoile5.text = "5 etoile : " + sharedPreferences.getString("5etoile","0")!!
-*/
 
          view.deco.setOnClickListener {//vide ce qu'il y a dans le sharedPreferences et met à l'accueil
              Log.i("JE SUIS LA","coucou")
@@ -61,6 +53,7 @@ class Frag_Profil : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        toServerLogin("NbMusique")//Avoir le nombre de musique deja upload par l'utilisateur
         toServerLogin("1etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
         toServerLogin("2etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
         toServerLogin("3etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
@@ -79,6 +72,16 @@ class Frag_Profil : Fragment() {
                 Log.i("toServeur", "Send")
                 Log.i("Reponse serveur",response )
                 val editor = sharedPreferences.edit()
+                if(fonction=="NbMusique"){
+                    editor.putString("NbMusique", response)
+                    Log.i("NbMusique",response )
+                    if(response==""){
+                        view?.textView?.text = "Nombre de musique en ligne : 0"
+                    }else{
+                        view?.textView?.text = "Nombre de musique en ligne : " + response
+                        Log.i("1etoile",response )
+                    }
+                }
                 if(fonction=="1etoile"){
                     if(response==""){
                         view?.etoile1?.text = "1 etoile : 0"
