@@ -223,9 +223,10 @@ class MesCreations : AppCompatActivity() {
             val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
                 .setPositiveButton("Renommer"){dialog, which ->// lorsque le bouton OK est pressé
                     Log.i("Nom fichier",text.text.toString())
+                    Log.i("liste fichier",ListeFichier.toString())
                     Log.i("contains",ListeFichier.contains(text.text.toString()+".mp3").toString())
                     namefile = text.text.toString().replace(" ", "-",true)// remplace les " " par "-"
-                    if(!ListeFichier.contains(namefile+".mp3")){// si le nom est pas utilise
+                    if(!ListeFichier.contains("/storage/emulated/0/DrumPadRec/"+    namefile+".mp3")){// si le nom est pas utilise
                         var nouveauFichier: File = File("/storage/emulated/0/DrumPadRec/"+namefile+".mp3")
                         if(monfichier.renameTo(nouveauFichier)){//change le nom
                             Log.i("RENAME","OUI")
