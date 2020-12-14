@@ -76,6 +76,7 @@ class Frag_Server_Musique : Fragment() {
         //controlSound(firtmusique,"daft.mp3")
         view.skip_Co.setOnClickListener {
             Log.i("SKIP","skip")
+            nbEtoileMoyenne=""
             SeekBarFrag.progress = 0
             nouvellemusique=true
             if (mp!==null){
@@ -96,6 +97,7 @@ class Frag_Server_Musique : Fragment() {
         view.back_Co.setOnClickListener {
             Log.i("BACK","back")
             SeekBarFrag.progress = 0
+            nbEtoileMoyenne=""
             nouvellemusique=true
             if (mp!==null){
                 mp?.stop()
@@ -245,7 +247,16 @@ class Frag_Server_Musique : Fragment() {
                     toServerLogin(0,"etoileMoyenne","",file)//vas cherche le nombre d'étoile en moyenne de la musique
                 }
                 if(fonction == "etoileMoyenne"){
-                    nbEtoileMoyenne = response
+                    var i: Int =0
+                    if(response.length>3){
+                        while(i<3){
+                            nbEtoileMoyenne+=response[i]
+                            i++
+                        }
+                    }else{
+                        nbEtoileMoyenne=response
+                    }
+
                     Log.i("JE SUIS LA","etoileMoyenne")
                     Log.i("etoileMoyenne",nbEtoileMoyenne)
                     toServerLogin(0,"artiste","",file)//vas cherche le nom de l'artiste

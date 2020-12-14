@@ -25,14 +25,16 @@ class Commu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_commu)
 
-       sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        /*
         toServerLogin("NbMusique")//Avoir le nombre de musique deja upload par l'utilisateur
         toServerLogin("1etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
         toServerLogin("2etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
         toServerLogin("3etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
         toServerLogin("4etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
         toServerLogin("5etoile")//Avoir le nombre d'étoiel collecté par l'utilisateur
-
+*/
         val fragement = Frag_Server_Musique()
         val fragement2 = Frag_Profil()
 
