@@ -118,6 +118,7 @@ class Frag_Server_Musique : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        nbEtoileMoyenne=""
         if(nbmusique>=1){//si y a une musique sur le serveur
             toServerLogin(nbmusique,"musique","","")//lance la musique
         }
@@ -250,6 +251,7 @@ class Frag_Server_Musique : Fragment() {
                     toServerLogin(0,"etoileMoyenne","",file)//vas cherche le nombre d'étoile en moyenne de la musique
                 }
                 if(fonction == "etoileMoyenne"){
+                    nbEtoileMoyenne=""
                     var i: Int =0
                     if(response.length>3){
                         while(i<3){
