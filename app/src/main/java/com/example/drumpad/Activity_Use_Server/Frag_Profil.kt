@@ -1,4 +1,4 @@
-package com.example.drumpad
+package com.example.drumpad.Activity_Use_Server
 
 
 import android.content.Intent
@@ -16,7 +16,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.fragment_frag_profil.*
+import com.example.drumpad.Activity.Accueil
+import com.example.drumpad.R
 import kotlinx.android.synthetic.main.fragment_frag_profil.view.*
 import java.util.HashMap
 

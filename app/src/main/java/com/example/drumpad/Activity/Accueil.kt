@@ -1,4 +1,4 @@
-package com.example.drumpad
+package com.example.drumpad.Activity
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -13,6 +13,9 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.drumpad.Activity_Use_Server.Commu
+import com.example.drumpad.Activity_Use_Server.Enregistrement
+import com.example.drumpad.R
 import kotlinx.android.synthetic.main.activity_accueil.*
 import java.util.HashMap
 

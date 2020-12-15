@@ -1,4 +1,4 @@
-package com.example.drumpad
+package com.example.drumpad.Activity
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -18,6 +18,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.drumpad.API_Upload.UploadUtility
+import com.example.drumpad.R
 import kotlinx.android.synthetic.main.activity_mes_creations.retour
 import kotlinx.android.synthetic.main.activity_mes_creations.*
 import kotlinx.coroutines.GlobalScope
@@ -25,7 +27,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
-import java.nio.file.Files
 import java.util.*
 import kotlin.collections.ArrayList
 

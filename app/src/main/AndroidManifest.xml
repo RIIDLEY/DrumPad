@@ -17,13 +17,13 @@
         android:roundIcon="@drawable/logo_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MesCreations"></activity>
-        <activity android:name=".Commu" />
-        <activity android:name=".Inscription" />
-        <activity android:name=".About" />
-        <activity android:name=".DrumPad" />
-        <activity android:name=".Enregistrement" />
-        <activity android:name=".Accueil">
+        <activity android:name=".Activity.MesCreations"></activity>
+        <activity android:name=".Activity_Use_Server.Commu" />
+        <activity android:name=".Activity_Use_Server.Inscription" />
+        <activity android:name=".Activity.About" />
+        <activity android:name=".Activity.DrumPad" />
+        <activity android:name=".Activity_Use_Server.Enregistrement" />
+        <activity android:name=".Activity.Accueil">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.drumpad
+package com.example.drumpad.Activity_Use_Server
 
 import android.app.AlertDialog
 import android.media.MediaPlayer
@@ -15,6 +15,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.drumpad.R
 import kotlinx.android.synthetic.main.alert_dialog_note.view.*
 import kotlinx.android.synthetic.main.fragment_frag_server_musique.*
 import kotlinx.android.synthetic.main.fragment_frag_server_musique.view.*
@@ -181,6 +182,8 @@ class Frag_Server_Musique : Fragment() {
                     Log.i("Envoyé","Oui")
                     Log.i("Envoyé",namefile)
                     toServerLogin(0,"etoile",radioButton.text.toString(),namefile)//envoie le vote
+                    nbEtoileMoyenne=""
+                    toServerLogin(nbmusique,"musique","","")
                 }
                 .setView(view)
             dialog.show()

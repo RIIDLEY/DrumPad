@@ -1,18 +1,13 @@
-package com.example.drumpad
+package com.example.drumpad.Activity_Use_Server
 
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.preference.PreferenceManager
-import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import com.example.drumpad.Activity.Accueil
+import com.example.drumpad.R
 import kotlinx.android.synthetic.main.activity_commu.*
-import java.util.HashMap
 
 
 class Commu : AppCompatActivity() {

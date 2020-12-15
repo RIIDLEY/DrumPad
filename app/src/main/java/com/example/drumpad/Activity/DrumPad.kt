@@ -1,4 +1,4 @@
-package com.example.drumpad
+package com.example.drumpad.Activity
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.drumpad.R
 import kotlinx.android.synthetic.main.activity_drumpad.*
 import java.io.File
 import java.io.IOException

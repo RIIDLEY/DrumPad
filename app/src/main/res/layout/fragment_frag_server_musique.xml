@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Frag_Server_Musique"
+    tools:context=".Activity_Use_Server.Frag_Server_Musique"
     android:background="@color/colorPrimary">
 
 
